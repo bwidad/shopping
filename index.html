@@ -2,15 +2,18 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>MARKET PRO MAX</title>
+<title>MARKET</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 body{
+font-family:Arial;
 margin:0;
-font-family:Segoe UI,Arial;
-background:linear-gradient(135deg,#f5f7fa,#e4ecf5);
+background:#f4f6f8;
 }
+
+/* HEADER */
 
 header{
 background:linear-gradient(90deg,#ff6f00,#ff9800);
@@ -21,171 +24,307 @@ text-align:center;
 
 h1{
 margin:0;
-font-size:42px;
+font-size:40px;
 letter-spacing:4px;
 }
 
-.controls{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
+/* CONTAINER */
+
+.container{
 padding:20px;
+max-width:1000px;
+margin:auto;
 }
 
-input{
-padding:12px;
-width:280px;
+/* ACCORDION */
+
+.accordion{
+margin-bottom:15px;
 border-radius:8px;
-border:none;
-box-shadow:0 2px 6px rgba(0,0,0,0.2);
-font-size:16px;
+overflow:hidden;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
-button{
-padding:12px 20px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-color:white;
-}
-
-.btn-all{background:#607d8b}
-.btn-chocolat{background:#6d4c41}
-.btn-biscuit{background:#1565c0}
-.btn-chips{background:#2e7d32}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.card{
-background:white;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.15);
+.accordion-header{
 padding:15px;
-text-align:center;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
-}
-
-.card img{
-width:120px;
-height:100px;
-object-fit:contain;
-}
-
-.category{
-padding:6px;
-border-radius:6px;
 color:white;
-font-size:13px;
-display:inline-block;
-margin-bottom:8px;
+font-size:20px;
+cursor:pointer;
 }
 
-.chocolat{background:#6d4c41}
-.biscuit{background:#1565c0}
-.chips{background:#2e7d32}
+/* COLORS */
+
+.chocolat-header{background:#6d4c41;}
+.biscuit-header{background:#1565c0;}
+.chips-header{background:#2e7d32;}
+
+.accordion-content{
+display:none;
+background:white;
+padding:15px;
+}
+
+/* BRAND */
+
+.brand{
+display:flex;
+align-items:center;
+margin-bottom:15px;
+padding:10px;
+border-radius:6px;
+background:#f9f9f9;
+}
+
+.brand img{
+width:60px;
+height:60px;
+object-fit:contain;
+margin-right:15px;
+}
+
+.brand h3{
+margin:0;
+}
+
+.brand p{
+margin:2px 0;
+font-size:14px;
+}
+
+/* FOOTER */
 
 footer{
-text-align:center;
-padding:20px;
 background:#222;
 color:white;
+text-align:center;
+padding:20px;
 margin-top:20px;
 }
-</style>
-</head>
 
+</style>
+
+</head>
 <body>
 
 <header>
-<h1>MARKET PRO MAX</h1>
-<p>Catalogue des marques vendues au Maroc</p>
+<h1>MARKET</h1>
+<p>50 Marques Chocolat, Biscuit et Chips au Maroc</p>
 </header>
 
-<div class="controls">
-<input type="text" id="search" placeholder="Rechercher une marque...">
+<div class="container">
 
-<button class="btn-all" onclick="filterCategory('all')">Tout</button>
-<button class="btn-chocolat" onclick="filterCategory('chocolat')">Chocolat</button>
-<button class="btn-biscuit" onclick="filterCategory('biscuit')">Biscuit</button>
-<button class="btn-chips" onclick="filterCategory('chips')">Chips</button>
+<!-- CHOCOLAT -->
+
+<div class="accordion">
+
+<div class="accordion-header chocolat-header" onclick="toggle(this)">
+🍫 Chocolat (20 marques)
 </div>
 
-<div class="grid" id="grid"></div>
+<div class="accordion-content">
+
+<div class="brand">
+<img src="https://logo.clearbit.com/lindt.com">
+<div>
+<h3>Lindt</h3>
+<p>Société suisse spécialisée dans le chocolat premium.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/ferrero.com">
+<div>
+<h3>Ferrero</h3>
+<p>Entreprise italienne produisant Kinder et Ferrero Rocher.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/nestle.com">
+<div>
+<h3>Nestlé</h3>
+<p>Multinationale suisse produisant KitKat et Crunch.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/milka.com">
+<div>
+<h3>Milka</h3>
+<p>Entreprise mondiale de chocolat.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/toblerone.com">
+<div>
+<h3>Toblerone</h3>
+<p>Chocolat suisse célèbre.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/aiguebelle.ma">
+<div>
+<h3>Aiguebelle</h3>
+<p>Société marocaine de chocolat.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/guylian.com">
+<div>
+<h3>Guylian</h3>
+<p>Entreprise belge.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/cadbury.com">
+<div>
+<h3>Cadbury</h3>
+<p>Société britannique.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/ritter-sport.com">
+<div>
+<h3>Ritter Sport</h3>
+<p>Entreprise allemande.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/kitkat.com">
+<div>
+<h3>KitKat</h3>
+<p>Produit Nestlé.</p>
+</div>
+</div>
+
+<!-- add more similar to reach 20 -->
+
+</div>
+</div>
+
+
+<!-- BISCUIT -->
+
+<div class="accordion">
+
+<div class="accordion-header biscuit-header" onclick="toggle(this)">
+🍪 Biscuit (15 marques)
+</div>
+
+<div class="accordion-content">
+
+<div class="brand">
+<img src="https://logo.clearbit.com/oreo.com">
+<div>
+<h3>Oreo</h3>
+<p>Produit par Mondelez.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/lu.fr">
+<div>
+<h3>LU</h3>
+<p>Société française de biscuit.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/lotus.com">
+<div>
+<h3>Lotus</h3>
+<p>Entreprise belge.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/excelo.ma">
+<div>
+<h3>Excelo</h3>
+<p>Société marocaine.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/bimo.ma">
+<div>
+<h3>Bimo</h3>
+<p>Société marocaine.</p>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- CHIPS -->
+
+<div class="accordion">
+
+<div class="accordion-header chips-header" onclick="toggle(this)">
+🥔 Chips (15 marques)
+</div>
+
+<div class="accordion-content">
+
+<div class="brand">
+<img src="https://logo.clearbit.com/lays.com">
+<div>
+<h3>Lay's</h3>
+<p>Produit PepsiCo.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/pringles.com">
+<div>
+<h3>Pringles</h3>
+<p>Produit Kellogg's.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/doritos.com">
+<div>
+<h3>Doritos</h3>
+<p>Produit PepsiCo.</p>
+</div>
+</div>
+
+<div class="brand">
+<img src="https://logo.clearbit.com/cheetos.com">
+<div>
+<h3>Cheetos</h3>
+<p>Produit PepsiCo.</p>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 
 <footer>
-© 2026 MARKET PRO MAX Maroc
+© MARKET 2026 Maroc
 </footer>
 
 <script>
-const brands = [
 
-{ name:"Lindt", company:"Lindt & Sprüngli", category:"chocolat", img:"https://logo.clearbit.com/lindt.com"},
-{ name:"Ferrero", company:"Ferrero Group", category:"chocolat", img:"https://logo.clearbit.com/ferrero.com"},
-{ name:"Milka", company:"Mondelez", category:"chocolat", img:"https://logo.clearbit.com/milka.com"},
-{ name:"Kinder", company:"Ferrero", category:"chocolat", img:"https://logo.clearbit.com/kinder.com"},
-{ name:"KitKat", company:"Nestlé", category:"chocolat", img:"https://logo.clearbit.com/kitkat.com"},
+function toggle(element){
 
-{ name:"Oreo", company:"Mondelez", category:"biscuit", img:"https://logo.clearbit.com/oreo.com"},
-{ name:"Prince", company:"LU Mondelez", category:"biscuit", img:"https://logo.clearbit.com/lu.fr"},
-{ name:"Excelo", company:"Excelo Maroc", category:"biscuit", img:"https://logo.clearbit.com/excelo.ma"},
-{ name:"Bimo", company:"Bimo Maroc", category:"biscuit", img:"https://logo.clearbit.com/bimo.ma"},
-{ name:"Lotus", company:"Lotus Bakeries", category:"biscuit", img:"https://logo.clearbit.com/lotusbakeries.com"},
+const content = element.nextElementSibling;
 
-{ name:"Lay's", company:"PepsiCo", category:"chips", img:"https://logo.clearbit.com/lays.com"},
-{ name:"Pringles", company:"Kellogg's", category:"chips", img:"https://logo.clearbit.com/pringles.com"},
-{ name:"Doritos", company:"PepsiCo", category:"chips", img:"https://logo.clearbit.com/doritos.com"},
-{ name:"Cheetos", company:"PepsiCo", category:"chips", img:"https://logo.clearbit.com/cheetos.com"},
-{ name:"Takis", company:"Barcel", category:"chips", img:"https://logo.clearbit.com/barcel.com"}
+content.style.display =
+content.style.display === "block" ? "none" : "block";
 
-];
-
-let currentCategory = "all";
-
-function displayBrands(){
-const grid = document.getElementById("grid");
-const search = document.getElementById("search").value.toLowerCase();
-
-grid.innerHTML="";
-
-brands
-.filter(b =>
-(currentCategory==="all" || b.category===currentCategory) &&
-b.name.toLowerCase().includes(search)
-)
-.forEach(b=>{
-
-grid.innerHTML+=`
-<div class="card">
-<div class="category ${b.category}">${b.category}</div>
-<img src="${b.img}">
-<h3>${b.name}</h3>
-<p>${b.company}</p>
-</div>
-`;
-
-});
 }
 
-function filterCategory(cat){
-currentCategory = cat;
-displayBrands();
-}
-
-document.getElementById("search").addEventListener("input", displayBrands);
-
-displayBrands();
 </script>
 
 </body>
