@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Malls & Marjane Maroc - Avancé</title>
+<title>Dashboard Malls & Marjane Maroc - Fast Food</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
@@ -55,7 +55,7 @@ footer{text-align:center;padding:0.5rem;background:#ddd;font-size:0.8rem;}
 <body>
 <header>
 <h1>Dashboard Malls & Marjane Maroc</h1>
-<p>Carte interactive avec clusters, mini-graph et filtres dynamiques</p>
+<p>Carte interactive avec clusters, mini-graph et fast-food</p>
 </header>
 
 <div class="container">
@@ -81,6 +81,8 @@ footer{text-align:center;padding:0.5rem;background:#ddd;font-size:0.8rem;}
 <p><strong>Coordonnées:</strong> <span id="mall-coords"></span></p>
 <h3>Magasins:</h3>
 <ul id="stores" class="store-list"></ul>
+<h3>Fast-Food:</h3>
+<ul id="fastfoods" class="store-list"></ul>
 </div>
 
 <footer>© 2026 - Dashboard Avancé Malls & Marjane</footer>
@@ -89,16 +91,16 @@ footer{text-align:center;padding:0.5rem;background:#ddd;font-size:0.8rem;}
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
-// DONNÉES
+// DONNÉES AVEC FAST FOOD
 const malls = [
-  { id:1,name:"Morocco Mall",city:"Casablanca",image:"https://source.unsplash.com/800x500/?mall,casablanca",location:{address:"Boulevard de Biarritz",lat:33.5731,lng:-7.7076},stores:["Zara","H&M","Nike","Adidas","Apple","Sephora"],type:"mall" },
-  { id:2,name:"Anfaplace Shopping Center",city:"Casablanca",image:"https://source.unsplash.com/800x500/?shopping-center,casablanca",location:{address:"Boulevard de la Corniche",lat:33.5992,lng:-7.6647},stores:["Mango","Calvin Klein","Foot Locker","Starbucks"],type:"mall" },
-  { id:3,name:"Mega Mall",city:"Rabat",image:"https://source.unsplash.com/800x500/?mall,rabat",location:{address:"Avenue Mohamed VI",lat:34.0209,lng:-6.8416},stores:["LC Waikiki","Samsung","Carrefour","Bershka"],type:"mall" },
-  { id:4,name:"Menara Mall",city:"Marrakech",image:"https://source.unsplash.com/800x500/?mall,marrakech",location:{address:"Avenue Mohammed VI",lat:31.6145,lng:-8.0216},stores:["Puma","KFC","Celio","Zara"],type:"mall" },
-  { id:5,name:"Tanger City Mall",city:"Tanger",image:"https://source.unsplash.com/800x500/?mall,tanger",location:{address:"Route de Malabata",lat:35.7733,lng:-5.7766},stores:["Nike","Adidas","Defacto","Carrefour"],type:"mall" },
-  { id:6,name:"Marjane Casablanca Ain Sebaa",city:"Casablanca",image:"https://source.unsplash.com/800x500/?marjane,casablanca",location:{address:"Ain Sebaa",lat:33.6167,lng:-7.575},stores:["Marjane","Carrefour","Pharmacie"],type:"marjane" },
-  { id:7,name:"Marjane Rabat Agdal",city:"Rabat",image:"https://source.unsplash.com/800x500/?marjane,rabat",location:{address:"Agdal",lat:34.0267,lng:-6.835},stores:["Marjane Hyper","Boutiques","Electro","Restaurants"],type:"marjane" },
-  { id:8,name:"Marjane Marrakech Guéliz",city:"Marrakech",image:"https://source.unsplash.com/800x500/?marjane,marrakech",location:{address:"Guéliz",lat:31.631,lng:-8.008},stores:["Marjane","Mode","Electro","Cinéplex"],type:"marjane" }
+  { id:1,name:"Morocco Mall",city:"Casablanca",image:"https://source.unsplash.com/800x500/?mall,casablanca",location:{address:"Boulevard de Biarritz",lat:33.5731,lng:-7.7076},stores:["Zara","H&M","Nike"],fastfood:["McDonald's","KFC"],type:"mall" },
+  { id:2,name:"Anfaplace Shopping Center",city:"Casablanca",image:"https://source.unsplash.com/800x500/?shopping-center,casablanca",location:{address:"Boulevard de la Corniche",lat:33.5992,lng:-7.6647},stores:["Mango","Calvin Klein"],fastfood:["Subway"],type:"mall" },
+  { id:3,name:"Mega Mall",city:"Rabat",image:"https://source.unsplash.com/800x500/?mall,rabat",location:{address:"Avenue Mohamed VI",lat:34.0209,lng:-6.8416},stores:["LC Waikiki","Carrefour"],fastfood:["Burger King"],type:"mall" },
+  { id:4,name:"Menara Mall",city:"Marrakech",image:"https://source.unsplash.com/800x500/?mall,marrakech",location:{address:"Avenue Mohammed VI",lat:31.6145,lng:-8.0216},stores:["Puma","Zara"],fastfood:["KFC","Pizza Hut"],type:"mall" },
+  { id:5,name:"Tanger City Mall",city:"Tanger",image:"https://source.unsplash.com/800x500/?mall,tanger",location:{address:"Route de Malabata",lat:35.7733,lng:-5.7766},stores:["Nike","Defacto"],fastfood:["McDonald's"],type:"mall" },
+  { id:6,name:"Marjane Casablanca Ain Sebaa",city:"Casablanca",image:"https://source.unsplash.com/800x500/?marjane,casablanca",location:{address:"Ain Sebaa",lat:33.6167,lng:-7.575},stores:["Marjane","Carrefour"],fastfood:["KFC"],type:"marjane" },
+  { id:7,name:"Marjane Rabat Agdal",city:"Rabat",image:"https://source.unsplash.com/800x500/?marjane,rabat",location:{address:"Agdal",lat:34.0267,lng:-6.835},stores:["Marjane Hyper","Electro"],fastfood:["Pizza Hut"],type:"marjane" },
+  { id:8,name:"Marjane Marrakech Guéliz",city:"Marrakech",image:"https://source.unsplash.com/800x500/?marjane,marrakech",location:{address:"Guéliz",lat:31.631,lng:-8.008},stores:["Marjane","Mode"],fastfood:["Burger King"],type:"marjane" }
 ];
 
 // DOM
@@ -115,6 +117,7 @@ const mallCity=document.getElementById("mall-city");
 const mallAddress=document.getElementById("mall-address");
 const mallCoords=document.getElementById("mall-coords");
 const storesEl=document.getElementById("stores");
+const fastfoodsEl=document.getElementById("fastfoods");
 
 let map,markerCluster;
 
@@ -133,7 +136,7 @@ function renderMalls(){
 
   filtered.forEach(m=>{
     const card=document.createElement("div"); card.className="mall-card";
-    card.innerHTML=`<img src="${m.image}" alt="${m.name}"><div class="info"><h3>${m.name}</h3><p>${m.city}</p><p>${m.stores.length} magasins</p><div class="bar-container"><div class="bar-fill" style="width:${Math.min(m.stores.length*10,100)}%"></div></div></div>`;
+    card.innerHTML=`<img src="${m.image}" alt="${m.name}"><div class="info"><h3>${m.name}</h3><p>${m.city}</p><p>${m.stores.length} magasins, ${m.fastfood.length} fast-food</p><div class="bar-container"><div class="bar-fill" style="width:${Math.min((m.stores.length+m.fastfood.length)*10,100)}%"></div></div></div>`;
     card.onclick=()=>showDetail(m);
     mallListEl.appendChild(card);
   });
@@ -169,8 +172,9 @@ function showDetail(m){
   mallCity.textContent="Ville: "+m.city;
   mallAddress.textContent="Adresse: "+m.location.address;
   mallCoords.textContent=`Lat: ${m.location.lat}, Lng: ${m.location.lng}`;
-  storesEl.innerHTML="";
+  storesEl.innerHTML=""; fastfoodsEl.innerHTML="";
   m.stores.forEach(s=>{const li=document.createElement("li");li.textContent=s;storesEl.appendChild(li);});
+  m.fastfood.forEach(f=>{const li=document.createElement("li");li.textContent=f;fastfoodsEl.appendChild(li);});
   map.setView([m.location.lat,m.location.lng],15);
 }
 
