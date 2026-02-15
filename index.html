@@ -72,6 +72,14 @@ header h1 {
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
+.mall-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: .5rem;
+}
+
 .mall-card h3 {
   color: var(--primary);
   margin-bottom: .5rem;
@@ -148,33 +156,10 @@ footer {
 </footer>
 
 <script>
-const malls = [
-  {
-    name: "Morocco Mall",
-    city: "Casablanca",
-    stores: ["Zara","H&M","Nike","Adidas","Apple Store","Sephora","Pull&Bear","Bershka","Massimo Dutti"]
-  },
-  {
-    name: "Anfaplace Shopping Center",
-    city: "Casablanca",
-    stores: ["Mango","Calvin Klein","Foot Locker","Starbucks","Stradivarius","Guess"]
-  },
-  {
-    name: "Mega Mall",
-    city: "Rabat",
-    stores: ["Bershka","Adidas","Samsung","LC Waikiki","Carrefour"]
-  },
-  {
-    name: "Menara Mall",
-    city: "Marrakech",
-    stores: ["H&M","Zara","Puma","KFC","McDonald's","Celio"]
-  },
-  {
-    name: "Tanger City Mall",
-    city: "Tanger",
-    stores: ["Defacto","Nike","Adidas","Starbucks","Carrefour Market"]
-  }
-];
+
+const API_URL = "https://mall-back-hxfbcrhuh7bnd7ge.westeurope-01.azurewebsites.net/api/malls";
+
+let malls = [];
 
 const mallList = document.getElementById("mall-list");
 const storeView = document.getElementById("store-view");
@@ -184,18 +169,45 @@ const backBtn = document.getElementById("back-btn");
 const searchInput = document.getElementById("search");
 const cityFilter = document.getElementById("cityFilter");
 
+
+// Charger les malls depuis l'API
+async function loadMalls() {
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error("Erreur API");
+
+    malls = await response.json();
+
+    populateCityFilter();
+    renderMalls();
+
+  } catch (error) {
+    mallList.innerHTML = "<p>Erreur de chargement des malls</p>";
+    console.error(error);
+  }
+}
+
+
 // Remplir filtre villes
-const cities = [...new Set(malls.map(m => m.city))];
-cities.forEach(city => {
-  const option = document.createElement("option");
-  option.value = city;
-  option.textContent = city;
-  cityFilter.appendChild(option);
-});
+function populateCityFilter() {
+  cityFilter.innerHTML = '<option value="">Toutes les villes</option>';
+
+  const cities = [...new Set(malls.map(m => m.city))];
+
+  cities.forEach(city => {
+    const option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    cityFilter.appendChild(option);
+  });
+}
+
 
 // Afficher malls
 function renderMalls() {
+
   mallList.innerHTML = "";
+
   const searchValue = searchInput.value.toLowerCase();
   const selectedCity = cityFilter.value;
 
@@ -204,26 +216,41 @@ function renderMalls() {
     (selectedCity === "" || mall.city === selectedCity)
   );
 
+  if (filtered.length === 0) {
+    mallList.innerHTML = "<p>Aucun mall trouvé</p>";
+    return;
+  }
+
   filtered.forEach(mall => {
+
     const card = document.createElement("div");
     card.className = "mall-card";
+
     card.innerHTML = `
+      <img src="${mall.image}" alt="${mall.name}">
       <h3>${mall.name}</h3>
       <p><strong>Ville:</strong> ${mall.city}</p>
+      <p><strong>Adresse:</strong> ${mall.location.address}</p>
       <p>${mall.stores.length} magasins</p>
     `;
+
     card.onclick = () => showStores(mall);
+
     mallList.appendChild(card);
   });
 }
 
+
 // Voir magasins
 function showStores(mall) {
+
   mallList.style.display = "none";
   storeView.style.display = "block";
+
   mallTitle.textContent = mall.name + " - Magasins";
 
   storesEl.innerHTML = "";
+
   mall.stores.forEach(store => {
     const li = document.createElement("li");
     li.textContent = store;
@@ -231,15 +258,22 @@ function showStores(mall) {
   });
 }
 
+
+// Retour liste
 backBtn.onclick = () => {
   storeView.style.display = "none";
   mallList.style.display = "grid";
 };
 
+
+// Events
 searchInput.addEventListener("input", renderMalls);
 cityFilter.addEventListener("change", renderMalls);
 
-renderMalls();
+
+// Init
+loadMalls();
+
 </script>
 
 </body>
