@@ -2,51 +2,72 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Vitrine Chocolats Maroc</title>
+    <title>MARKET</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
         }
 
         header {
-            background-color: #4e342e;
+            background-color: #1b5e20;
             color: white;
-            padding: 20px;
             text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 40px;
+            letter-spacing: 3px;
         }
 
         .hero {
-            background-color: #6d4c41;
+            background-color: #2e7d32;
             color: white;
-            padding: 40px;
             text-align: center;
+            padding: 40px 20px;
         }
 
         .container {
             padding: 30px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #1b5e20;
+            margin-top: 40px;
         }
 
         .card {
-            background-color: white;
+            background: white;
             padding: 20px;
-            margin-bottom: 20px;
+            margin: 20px 0;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .card h2 {
-            color: #4e342e;
+        .card h3 {
+            margin-top: 0;
+            color: #2e7d32;
         }
 
         footer {
-            background-color: #4e342e;
+            background-color: #1b5e20;
             color: white;
             text-align: center;
-            padding: 15px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media(max-width:768px){
+            header h1 {
+                font-size: 28px;
+            }
         }
     </style>
 
@@ -54,78 +75,83 @@
 <body>
 
 <header>
-    <h1>🍫 Vitrine des Chocolats au Maroc</h1>
+    <h1>MARKET</h1>
 </header>
 
 <section class="hero">
-    <h2>Découvrez les meilleures marques de chocolat vendues au Maroc</h2>
-    <p>Informations sur les produits et les sociétés</p>
+    <h2>Produits vendus au Maroc</h2>
+    <p>Chocolats • Biscuits • Chips</p>
 </section>
 
-<section class="container">
+<div class="container">
+
+    <!-- SECTION CHOCOLATS -->
+    <h2>🍫 Chocolats</h2>
 
     <div class="card">
-        <h2>Lindt Excellence</h2>
+        <h3>Lindt Excellence</h3>
         <p><strong>Société :</strong> Lindt & Sprüngli</p>
-        <p>
-            Lindt est une entreprise suisse fondée en 1845. Elle est reconnue mondialement
-            pour ses chocolats premium. Ses produits sont vendus dans les grandes surfaces
-            marocaines comme Marjane, Carrefour et BIM.
-        </p>
+        <p>Entreprise suisse fondée en 1845, spécialisée dans le chocolat premium. Ses produits sont vendus dans les grandes surfaces marocaines.</p>
     </div>
 
     <div class="card">
-        <h2>Ferrero Rocher</h2>
+        <h3>Ferrero Rocher / Kinder</h3>
         <p><strong>Société :</strong> Ferrero</p>
-        <p>
-            Ferrero est une entreprise italienne créée en 1946. Elle produit des chocolats
-            célèbres comme Ferrero Rocher, Kinder et Nutella. Très populaire au Maroc
-            pendant les fêtes et événements.
-        </p>
+        <p>Entreprise italienne créée en 1946. Très populaire au Maroc, notamment pendant les fêtes. Elle produit Ferrero Rocher, Kinder et Nutella.</p>
     </div>
 
     <div class="card">
-        <h2>Milka</h2>
-        <p><strong>Société :</strong> Mondelez International</p>
-        <p>
-            Milka est une marque européenne connue pour son chocolat au lait doux.
-            Elle appartient à Mondelez International et est largement distribuée
-            dans les supermarchés marocains.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>Toblerone</h2>
-        <p><strong>Société :</strong> Mondelez International</p>
-        <p>
-            Toblerone est un chocolat suisse célèbre pour sa forme triangulaire unique.
-            Il est très vendu au Maroc, notamment dans les aéroports et les grandes surfaces.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>Nestlé Crunch</h2>
-        <p><strong>Société :</strong> Nestlé</p>
-        <p>
-            Nestlé est une multinationale suisse fondée en 1866. Elle propose plusieurs
-            chocolats populaires au Maroc, notamment Crunch et KitKat.
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>Aiguebelle</h2>
+        <h3>Aiguebelle</h3>
         <p><strong>Société :</strong> Aiguebelle Maroc</p>
-        <p>
-            Aiguebelle est une entreprise marocaine spécialisée dans le chocolat et
-            les confiseries. Elle est très connue localement et propose des produits
-            adaptés au marché marocain.
-        </p>
+        <p>Entreprise marocaine spécialisée dans le chocolat et les confiseries locales. Marque historique au Maroc.</p>
     </div>
 
-</section>
+    <!-- SECTION BISCUITS -->
+    <h2>🍪 Biscuits</h2>
+
+    <div class="card">
+        <h3>Oreo</h3>
+        <p><strong>Société :</strong> Mondelez International</p>
+        <p>Multinationale américaine spécialisée dans les snacks. Oreo est l’un des biscuits les plus vendus au Maroc.</p>
+    </div>
+
+    <div class="card">
+        <h3>Prince</h3>
+        <p><strong>Société :</strong> LU (groupe Mondelez)</p>
+        <p>Marque française connue pour ses biscuits fourrés au chocolat. Très répandue dans les supermarchés marocains.</p>
+    </div>
+
+    <div class="card">
+        <h3>Excelo</h3>
+        <p><strong>Société :</strong> Excelo Maroc</p>
+        <p>Entreprise marocaine produisant des biscuits adaptés au marché local. Distribuée dans tout le royaume.</p>
+    </div>
+
+    <!-- SECTION CHIPS -->
+    <h2>🥔 Chips</h2>
+
+    <div class="card">
+        <h3>Lay's</h3>
+        <p><strong>Société :</strong> PepsiCo</p>
+        <p>Multinationale américaine spécialisée dans les snacks et boissons. Lay's est l’une des marques de chips les plus vendues au Maroc.</p>
+    </div>
+
+    <div class="card">
+        <h3>Pringles</h3>
+        <p><strong>Société :</strong> Kellogg's</p>
+        <p>Entreprise américaine produisant les célèbres chips en tube. Très populaires au Maroc.</p>
+    </div>
+
+    <div class="card">
+        <h3>Chips From Morocco (exemple local)</h3>
+        <p><strong>Société :</strong> Entreprises agroalimentaires marocaines</p>
+        <p>Plusieurs entreprises locales produisent des chips adaptées aux goûts marocains, distribuées dans les commerces de proximité.</p>
+    </div>
+
+</div>
 
 <footer>
-    <p>© 2026 Vitrine Chocolats Maroc</p>
+    <p>© 2026 MARKET - Tous droits réservés</p>
 </footer>
 
 </body>
