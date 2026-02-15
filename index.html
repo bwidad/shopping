@@ -6,226 +6,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#eef1f5;
-}
-
-/* HEADER */
-
-header{
-    background:linear-gradient(90deg,#ff6f00,#ff8f00);
-    color:white;
-    padding:25px;
-    text-align:center;
-}
-
-header h1{
-    margin:0;
-    font-size:40px;
-    letter-spacing:5px;
-}
-
-/* CONTAINER */
-
-.container{
-    padding:30px;
-}
-
-/* GRID */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-}
-
-/* WINDOW */
-
-.window{
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    transition:0.3s;
-}
-
-.window:hover{
-    transform:translateY(-5px);
-}
-
-/* WINDOW HEADER */
-
-.window-header{
-    color:white;
-    padding:10px;
-    font-weight:bold;
-}
-
-/* WINDOW BODY */
-
-.window-body{
-    background:white;
-    padding:15px;
-}
-
-.window-body img{
-    width:100%;
-    height:150px;
-    object-fit:contain;
-    margin-bottom:10px;
-}
-
-.window-body h3{
-    margin:5px 0;
-}
-
-.window-body p{
-    font-size:14px;
-}
-
-/* DIFFERENT COLORS */
-
-.color1{background:#d32f2f;}
-.color2{background:#7b1fa2;}
-.color3{background:#1976d2;}
-.color4{background:#388e3c;}
-.color5{background:#f57c00;}
-.color6{background:#5d4037;}
-.color7{background:#c2185b;}
-.color8{background:#0097a7;}
-.color9{background:#455a64;}
-.color10{background:#512da8;}
-
-footer{
-    text-align:center;
-    background:#222;
-    color:white;
-    padding:20px;
-    margin-top:30px;
-}
-
+body{margin:0;font-family:Arial, sans-serif;background:#f4f6f9}
+header{background:linear-gradient(90deg,#ff6f00,#ff9800);color:#fff;text-align:center;padding:30px}
+header h1{margin:0;font-size:44px;letter-spacing:6px}
+.section{padding:30px}
+.section-title{font-size:28px;margin-bottom:20px;color:#333}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.window{border-radius:12px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.15);transition:.3s}
+.window:hover{transform:translateY(-5px)}
+.window-header{padding:10px;font-weight:bold;text-align:center;color:#fff}
+.window-body{background:#fff;padding:15px;text-align:center}
+.window-body img{width:120px;height:100px;object-fit:contain;margin-bottom:10px}
+.window-body h3{margin:8px 0 5px}
+.window-body p{font-size:13px}
+.chocolat{background:#6d4c41}
+.biscuit{background:#1565c0}
+.chips{background:#2e7d32}
+footer{background:#222;color:#fff;text-align:center;padding:20px;margin-top:40px}
 </style>
-
 </head>
+
 <body>
 
 <header>
 <h1>MARKET</h1>
-<p>Marques Chocolat, Biscuit et Chips vendues au Maroc</p>
+<p>50 Marques Chocolat • Biscuit • Chips vendues au Maroc</p>
 </header>
 
-<div class="container">
-
+<!-- ===================== CHOCOLAT (1-20) ===================== -->
+<div class="section">
+<div class="section-title">🍫 Chocolat</div>
 <div class="grid">
 
-<!-- 1 Lindt -->
-<div class="window">
-<div class="window-header color1">Lindt</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Lindt_logo.svg/512px-Lindt_logo.svg.png">
-<h3>Lindt & Sprüngli</h3>
-<p>Société suisse fondée en 1845. Elle produit du chocolat premium vendu dans les supermarchés marocains.</p>
+<!-- 1-20 -->
+<div class="window"><div class="window-header chocolat">Lindt</div><div class="window-body"><img src="https://logo.clearbit.com/lindt.com"><h3>Lindt & Sprüngli</h3><p>Société suisse fondée en 1845 spécialisée dans le chocolat premium.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Ferrero</div><div class="window-body"><img src="https://logo.clearbit.com/ferrero.com"><h3>Ferrero Group</h3><p>Entreprise italienne produisant Ferrero Rocher et Kinder.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Nestlé</div><div class="window-body"><img src="https://logo.clearbit.com/nestle.com"><h3>Nestlé</h3><p>Multinationale suisse produisant KitKat et Crunch.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Milka</div><div class="window-body"><img src="https://logo.clearbit.com/milka.com"><h3>Mondelez</h3><p>Entreprise spécialisée dans le chocolat au lait.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Toblerone</div><div class="window-body"><img src="https://logo.clearbit.com/toblerone.com"><h3>Mondelez</h3><p>Chocolat suisse célèbre pour sa forme triangulaire.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Cadbury</div><div class="window-body"><img src="https://logo.clearbit.com/cadbury.com"><h3>Mondelez</h3><p>Entreprise britannique spécialisée en chocolat.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Galaxy</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Marque internationale de chocolat populaire.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Bounty</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Barre chocolatée à la noix de coco.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Snickers</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Barre chocolatée aux cacahuètes.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Twix</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Biscuit enrobé de chocolat au caramel.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Kinder</div><div class="window-body"><img src="https://logo.clearbit.com/kinder.com"><h3>Ferrero</h3><p>Marque populaire auprès des enfants et familles.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Crunch</div><div class="window-body"><img src="https://logo.clearbit.com/nestle.com"><h3>Nestlé</h3><p>Chocolat au riz soufflé.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">KitKat</div><div class="window-body"><img src="https://logo.clearbit.com/kitkat.com"><h3>Nestlé</h3><p>Gaufrette enrobée de chocolat.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Mars</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Barre chocolatée iconique.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Maltesers</div><div class="window-body"><img src="https://logo.clearbit.com/mars.com"><h3>Mars Inc.</h3><p>Billes chocolatées au malt.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Ritter Sport</div><div class="window-body"><img src="https://logo.clearbit.com/ritter-sport.de"><h3>Ritter Sport</h3><p>Chocolat allemand carré.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Côte d'Or</div><div class="window-body"><img src="https://logo.clearbit.com/cotedor.com"><h3>Mondelez</h3><p>Chocolat belge premium.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">After Eight</div><div class="window-body"><img src="https://logo.clearbit.com/nestle.com"><h3>Nestlé</h3><p>Chocolat noir fourré à la menthe.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Godiva</div><div class="window-body"><img src="https://logo.clearbit.com/godiva.com"><h3>Godiva</h3><p>Chocolat belge haut de gamme.</p></div></div>
+
+<div class="window"><div class="window-header chocolat">Aiguebelle</div><div class="window-body"><img src="https://logo.clearbit.com/aiguebelle.ma"><h3>Aiguebelle Maroc</h3><p>Entreprise marocaine spécialisée en chocolat.</p></div></div>
+
 </div>
 </div>
 
-<!-- 2 Ferrero -->
-<div class="window">
-<div class="window-header color2">Ferrero</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Ferrero_logo.svg">
-<h3>Ferrero Group</h3>
-<p>Entreprise italienne produisant Ferrero Rocher, Kinder et Nutella, très populaires au Maroc.</p>
+<!-- ===================== BISCUIT (21-35) ===================== -->
+<div class="section">
+<div class="section-title">🍪 Biscuit</div>
+<div class="grid">
+
+<!-- 15 biscuits -->
+<div class="window"><div class="window-header biscuit">Oreo</div><div class="window-body"><img src="https://logo.clearbit.com/oreo.com"><h3>Mondelez</h3><p>Biscuit sandwich au chocolat.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">LU</div><div class="window-body"><img src="https://logo.clearbit.com/lu.fr"><h3>LU France</h3><p>Fabricant des biscuits Prince.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Prince</div><div class="window-body"><img src="https://logo.clearbit.com/mondelezinternational.com"><h3>Mondelez</h3><p>Biscuit fourré au chocolat.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Petit Beurre</div><div class="window-body"><img src="https://logo.clearbit.com/lu.fr"><h3>LU</h3><p>Biscuit traditionnel.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Excelo</div><div class="window-body"><img src="https://logo.clearbit.com/excelo.ma"><h3>Excelo Maroc</h3><p>Entreprise marocaine de biscuits.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Bimo</div><div class="window-body"><img src="https://logo.clearbit.com/bimo.ma"><h3>Bimo Maroc</h3><p>Marque marocaine populaire.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Tango</div><div class="window-body"><img src="https://logo.clearbit.com/bimo.ma"><h3>Bimo</h3><p>Gaufrette chocolatée connue.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Tagger</div><div class="window-body"><img src="https://logo.clearbit.com/bimo.ma"><h3>Bimo</h3><p>Biscuit fourré populaire.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">McVitie's</div><div class="window-body"><img src="https://logo.clearbit.com/mcvities.co.uk"><h3>Pladis</h3><p>Biscuit digestif britannique.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">BelVita</div><div class="window-body"><img src="https://logo.clearbit.com/belvita.com"><h3>Mondelez</h3><p>Biscuit énergétique.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Granola</div><div class="window-body"><img src="https://logo.clearbit.com/lu.fr"><h3>LU</h3><p>Biscuit chocolat croquant.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Barni</div><div class="window-body"><img src="https://logo.clearbit.com/mondelezinternational.com"><h3>Mondelez</h3><p>Gâteau fourré au chocolat.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Lotus</div><div class="window-body"><img src="https://logo.clearbit.com/lotusbakeries.com"><h3>Lotus Bakeries</h3><p>Biscuit caramelisé belge.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Pepito</div><div class="window-body"><img src="https://logo.clearbit.com/lu.fr"><h3>LU</h3><p>Biscuit fourré chocolat.</p></div></div>
+
+<div class="window"><div class="window-header biscuit">Cracotte</div><div class="window-body"><img src="https://logo.clearbit.com/lu.fr"><h3>LU</h3><p>Biscotte croustillante.</p></div></div>
+
 </div>
 </div>
 
-<!-- 3 Nestle -->
-<div class="window">
-<div class="window-header color3">Nestlé</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Nestle_textlogo_blue.svg/512px-Nestle_textlogo_blue.svg.png">
-<h3>Nestlé</h3>
-<p>Multinationale suisse produisant KitKat, Crunch et autres chocolats vendus au Maroc.</p>
-</div>
-</div>
+<!-- ===================== CHIPS (36-50) ===================== -->
+<div class="section">
+<div class="section-title">🥔 Chips</div>
+<div class="grid">
 
-<!-- 4 Milka -->
-<div class="window">
-<div class="window-header color4">Milka</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Milka_logo.svg/512px-Milka_logo.svg.png">
-<h3>Mondelez International</h3>
-<p>Entreprise américaine spécialisée dans les snacks et chocolats vendus mondialement.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Lay's</div><div class="window-body"><img src="https://logo.clearbit.com/lays.com"><h3>PepsiCo</h3><p>Leader mondial des chips.</p></div></div>
 
-<!-- 5 Oreo -->
-<div class="window">
-<div class="window-header color5">Oreo</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Oreo_logo.svg/512px-Oreo_logo.svg.png">
-<h3>Mondelez International</h3>
-<p>Fabricant des biscuits Oreo, très populaires au Maroc.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Pringles</div><div class="window-body"><img src="https://logo.clearbit.com/pringles.com"><h3>Kellogg's</h3><p>Chips en tube mondialement connues.</p></div></div>
 
-<!-- 6 LU -->
-<div class="window">
-<div class="window-header color6">LU</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/LU_logo.svg/512px-LU_logo.svg.png">
-<h3>LU France</h3>
-<p>Entreprise française produisant Prince et Petit Beurre.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Doritos</div><div class="window-body"><img src="https://logo.clearbit.com/doritos.com"><h3>PepsiCo</h3><p>Chips tortilla épicées.</p></div></div>
 
-<!-- 7 Excelo -->
-<div class="window">
-<div class="window-header color7">Excelo</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_placeholder.svg/512px-Logo_placeholder.svg.png">
-<h3>Excelo Maroc</h3>
-<p>Entreprise marocaine produisant biscuits et snacks.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Cheetos</div><div class="window-body"><img src="https://logo.clearbit.com/cheetos.com"><h3>PepsiCo</h3><p>Snack au fromage.</p></div></div>
 
-<!-- 8 Lays -->
-<div class="window">
-<div class="window-header color8">Lay's</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Lay%27s_logo.svg/512px-Lay%27s_logo.svg.png">
-<h3>PepsiCo</h3>
-<p>Entreprise américaine produisant les chips Lay's vendues au Maroc.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Bugles</div><div class="window-body"><img src="https://logo.clearbit.com/generalmills.com"><h3>General Mills</h3><p>Snack en forme de cône.</p></div></div>
 
-<!-- 9 Pringles -->
-<div class="window">
-<div class="window-header color9">Pringles</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Pringles_logo.svg/512px-Pringles_logo.svg.png">
-<h3>Kellogg's</h3>
-<p>Entreprise américaine produisant les célèbres chips Pringles.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Takis</div><div class="window-body"><img src="https://logo.clearbit.com/barcel.com"><h3>Barcel</h3><p>Snack mexicain épicé.</p></div></div>
 
-<!-- 10 Aiguebelle -->
-<div class="window">
-<div class="window-header color10">Aiguebelle</div>
-<div class="window-body">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_placeholder.svg/512px-Logo_placeholder.svg.png">
-<h3>Aiguebelle Maroc</h3>
-<p>Entreprise marocaine spécialisée dans le chocolat et confiserie.</p>
-</div>
-</div>
+<div class="window"><div class="window-header chips">Chio</div><div class="window-body"><img src="https://logo.clearbit.com/intersnack.de"><h3>Intersnack</h3><p>Chips européennes.</p></div></div>
+
+<div class="window"><div class="window-header chips">Pombar</div><div class="window-body"><img src="https://logo.clearbit.com/intersnack.de"><h3>Intersnack</h3><p>Snack populaire.</p></div></div>
+
+<div class="window"><div class="window-header chips">Alesto</div><div class="window-body"><img src="https://logo.clearbit.com/lidl.com"><h3>Lidl</h3><p>Marque distributeur.</p></div></div>
+
+<div class="window"><div class="window-header chips">Chipsy</div><div class="window-body"><img src="https://logo.clearbit.com/pepsico.com"><h3>PepsiCo</h3><p>Marque régionale de chips.</p></div></div>
+
+<div class="window"><div class="window-header chips">Bret's</div><div class="window-body"><img src="https://logo.clearbit.com/brets.fr"><h3>Altho</h3><p>Chips françaises artisanales.</p></div></div>
+
+<div class="window"><div class="window-header chips">Ruffles</div><div class="window-body"><img src="https://logo.clearbit.com/pepsico.com"><h3>PepsiCo</h3><p>Chips ondulées.</p></div></div>
+
+<div class="window"><div class="window-header chips">Monster Munch</div><div class="window-body"><img src="https://logo.clearbit.com/walkers.co.uk"><h3>Walkers</h3><p>Snack croustillant populaire.</p></div></div>
+
+<div class="window"><div class="window-header chips">Sunbites</div><div class="window-body"><img src="https://logo.clearbit.com/pepsico.com"><h3>PepsiCo</h3><p>Snack céréales croustillant.</p></div></div>
+
+<div class="window"><div class="window-header chips">Popchips</div><div class="window-body"><img src="https://logo.clearbit.com/popchips.com"><h3>Popchips Inc.</h3><p>Chips soufflées légères.</p></div></div>
 
 </div>
-
 </div>
 
 <footer>
-© 2026 MARKET - Application vitrine Maroc
+© 2026 MARKET - Application Vitrine Maroc
 </footer>
 
 </body>
