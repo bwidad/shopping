@@ -10,7 +10,7 @@
 body{
 font-family:Arial;
 margin:0;
-background:#f4f6f8;
+background:#f1f3f6;
 }
 
 /* HEADER */
@@ -24,16 +24,16 @@ text-align:center;
 
 h1{
 margin:0;
-font-size:40px;
-letter-spacing:4px;
+font-size:42px;
+letter-spacing:5px;
 }
 
 /* CONTAINER */
 
 .container{
-padding:20px;
-max-width:1000px;
+max-width:1100px;
 margin:auto;
+padding:20px;
 }
 
 /* ACCORDION */
@@ -54,41 +54,45 @@ cursor:pointer;
 
 /* COLORS */
 
-.chocolat-header{background:#6d4c41;}
-.biscuit-header{background:#1565c0;}
-.chips-header{background:#2e7d32;}
+.chocolat{background:#5d4037;}
+.biscuit{background:#1565c0;}
+.chips{background:#2e7d32;}
+.boisson{background:#6a1b9a;}
 
-.accordion-content{
+/* CONTENT */
+
+.content{
 display:none;
 background:white;
 padding:15px;
 }
 
-/* BRAND */
+/* PRODUCT */
 
-.brand{
+.product{
 display:flex;
 align-items:center;
-margin-bottom:15px;
+background:#f9f9f9;
+margin-bottom:10px;
 padding:10px;
 border-radius:6px;
-background:#f9f9f9;
 }
 
-.brand img{
+.product img{
 width:60px;
 height:60px;
 object-fit:contain;
 margin-right:15px;
 }
 
-.brand h3{
+.product h3{
 margin:0;
 }
 
-.brand p{
-margin:2px 0;
+.product p{
+margin:3px 0;
 font-size:14px;
+color:#555;
 }
 
 /* FOOTER */
@@ -98,7 +102,6 @@ background:#222;
 color:white;
 text-align:center;
 padding:20px;
-margin-top:20px;
 }
 
 </style>
@@ -108,220 +111,213 @@ margin-top:20px;
 
 <header>
 <h1>MARKET</h1>
-<p>50 Marques Chocolat, Biscuit et Chips au Maroc</p>
+<p>Catalogue des marques vendues au Maroc</p>
 </header>
 
 <div class="container">
 
-<!-- CHOCOLAT -->
+<div class="accordion">
+<div class="accordion-header chocolat" onclick="toggle('chocolatList')">
+🍫 Chocolat
+</div>
+<div id="chocolatList" class="content"></div>
+</div>
 
 <div class="accordion">
-
-<div class="accordion-header chocolat-header" onclick="toggle(this)">
-🍫 Chocolat (20 marques)
+<div class="accordion-header biscuit" onclick="toggle('biscuitList')">
+🍪 Biscuit
 </div>
-
-<div class="accordion-content">
-
-<div class="brand">
-<img src="https://logo.clearbit.com/lindt.com">
-<div>
-<h3>Lindt</h3>
-<p>Société suisse spécialisée dans le chocolat premium.</p>
+<div id="biscuitList" class="content"></div>
 </div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/ferrero.com">
-<div>
-<h3>Ferrero</h3>
-<p>Entreprise italienne produisant Kinder et Ferrero Rocher.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/nestle.com">
-<div>
-<h3>Nestlé</h3>
-<p>Multinationale suisse produisant KitKat et Crunch.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/milka.com">
-<div>
-<h3>Milka</h3>
-<p>Entreprise mondiale de chocolat.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/toblerone.com">
-<div>
-<h3>Toblerone</h3>
-<p>Chocolat suisse célèbre.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/aiguebelle.ma">
-<div>
-<h3>Aiguebelle</h3>
-<p>Société marocaine de chocolat.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/guylian.com">
-<div>
-<h3>Guylian</h3>
-<p>Entreprise belge.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/cadbury.com">
-<div>
-<h3>Cadbury</h3>
-<p>Société britannique.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/ritter-sport.com">
-<div>
-<h3>Ritter Sport</h3>
-<p>Entreprise allemande.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/kitkat.com">
-<div>
-<h3>KitKat</h3>
-<p>Produit Nestlé.</p>
-</div>
-</div>
-
-<!-- add more similar to reach 20 -->
-
-</div>
-</div>
-
-
-<!-- BISCUIT -->
 
 <div class="accordion">
-
-<div class="accordion-header biscuit-header" onclick="toggle(this)">
-🍪 Biscuit (15 marques)
+<div class="accordion-header chips" onclick="toggle('chipsList')">
+🥔 Chips
 </div>
-
-<div class="accordion-content">
-
-<div class="brand">
-<img src="https://logo.clearbit.com/oreo.com">
-<div>
-<h3>Oreo</h3>
-<p>Produit par Mondelez.</p>
+<div id="chipsList" class="content"></div>
 </div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/lu.fr">
-<div>
-<h3>LU</h3>
-<p>Société française de biscuit.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/lotus.com">
-<div>
-<h3>Lotus</h3>
-<p>Entreprise belge.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/excelo.ma">
-<div>
-<h3>Excelo</h3>
-<p>Société marocaine.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/bimo.ma">
-<div>
-<h3>Bimo</h3>
-<p>Société marocaine.</p>
-</div>
-</div>
-
-</div>
-</div>
-
-
-<!-- CHIPS -->
 
 <div class="accordion">
-
-<div class="accordion-header chips-header" onclick="toggle(this)">
-🥔 Chips (15 marques)
+<div class="accordion-header boisson" onclick="toggle('boissonList')">
+🥤 Boisson
 </div>
-
-<div class="accordion-content">
-
-<div class="brand">
-<img src="https://logo.clearbit.com/lays.com">
-<div>
-<h3>Lay's</h3>
-<p>Produit PepsiCo.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/pringles.com">
-<div>
-<h3>Pringles</h3>
-<p>Produit Kellogg's.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/doritos.com">
-<div>
-<h3>Doritos</h3>
-<p>Produit PepsiCo.</p>
-</div>
-</div>
-
-<div class="brand">
-<img src="https://logo.clearbit.com/cheetos.com">
-<div>
-<h3>Cheetos</h3>
-<p>Produit PepsiCo.</p>
-</div>
-</div>
-
-</div>
+<div id="boissonList" class="content"></div>
 </div>
 
 </div>
 
 <footer>
-© MARKET 2026 Maroc
+© MARKET Maroc 2026
 </footer>
 
 <script>
 
-function toggle(element){
+/* DATABASE — Ajoutez jusqu'à 200 marques ici */
 
-const content = element.nextElementSibling;
+const products = [
 
-content.style.display =
-content.style.display === "block" ? "none" : "block";
+/* CHOCOLAT */
+
+{
+name:"Lindt",
+company:"Entreprise suisse fondée en 1845 spécialisée dans le chocolat premium.",
+category:"chocolat",
+image:"https://logo.clearbit.com/lindt.com"
+},
+
+{
+name:"Ferrero",
+company:"Entreprise italienne produisant Kinder et Ferrero Rocher.",
+category:"chocolat",
+image:"https://logo.clearbit.com/ferrero.com"
+},
+
+{
+name:"Milka",
+company:"Marque mondiale appartenant à Mondelez.",
+category:"chocolat",
+image:"https://logo.clearbit.com/milka.com"
+},
+
+{
+name:"KitKat",
+company:"Produit par Nestlé.",
+category:"chocolat",
+image:"https://logo.clearbit.com/kitkat.com"
+},
+
+{
+name:"Toblerone",
+company:"Chocolat suisse célèbre.",
+category:"chocolat",
+image:"https://logo.clearbit.com/toblerone.com"
+},
+
+/* BISCUIT */
+
+{
+name:"Oreo",
+company:"Biscuit produit par Mondelez.",
+category:"biscuit",
+image:"https://logo.clearbit.com/oreo.com"
+},
+
+{
+name:"LU",
+company:"Entreprise française de biscuit.",
+category:"biscuit",
+image:"https://logo.clearbit.com/lu.fr"
+},
+
+{
+name:"Bimo",
+company:"Entreprise marocaine de biscuit.",
+category:"biscuit",
+image:"https://logo.clearbit.com/bimo.ma"
+},
+
+{
+name:"Lotus",
+company:"Entreprise belge de biscuit.",
+category:"biscuit",
+image:"https://logo.clearbit.com/lotusbakeries.com"
+},
+
+/* CHIPS */
+
+{
+name:"Lay's",
+company:"Entreprise américaine PepsiCo.",
+category:"chips",
+image:"https://logo.clearbit.com/lays.com"
+},
+
+{
+name:"Pringles",
+company:"Entreprise Kellogg's.",
+category:"chips",
+image:"https://logo.clearbit.com/pringles.com"
+},
+
+{
+name:"Doritos",
+company:"Produit PepsiCo.",
+category:"chips",
+image:"https://logo.clearbit.com/doritos.com"
+},
+
+{
+name:"Cheetos",
+company:"Produit PepsiCo.",
+category:"chips",
+image:"https://logo.clearbit.com/cheetos.com"
+},
+
+/* BOISSON */
+
+{
+name:"Coca-Cola",
+company:"Entreprise américaine de boisson.",
+category:"boisson",
+image:"https://logo.clearbit.com/coca-cola.com"
+},
+
+{
+name:"Pepsi",
+company:"Entreprise PepsiCo.",
+category:"boisson",
+image:"https://logo.clearbit.com/pepsi.com"
+},
+
+{
+name:"Hawai",
+company:"Boisson populaire au Maroc.",
+category:"boisson",
+image:"https://logo.clearbit.com/hawai.ma"
+},
+
+{
+name:"Poms",
+company:"Boisson gazeuse marocaine.",
+category:"boisson",
+image:"https://logo.clearbit.com/poms.ma"
+}
+
+];
+
+
+/* DISPLAY */
+
+function display(){
+
+products.forEach(product=>{
+
+const html = `
+<div class="product">
+<img src="${product.image}">
+<div>
+<h3>${product.name}</h3>
+<p>${product.company}</p>
+</div>
+</div>
+`;
+
+document.getElementById(product.category+"List").innerHTML += html;
+
+});
+
+}
+
+display();
+
+/* TOGGLE */
+
+function toggle(id){
+
+const el = document.getElementById(id);
+
+el.style.display =
+el.style.display === "block" ? "none" : "block";
 
 }
 
@@ -329,3 +325,4 @@ content.style.display === "block" ? "none" : "block";
 
 </body>
 </html>
+
