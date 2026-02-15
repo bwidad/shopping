@@ -3,278 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malls du Maroc</title>
+<title>Dashboard Malls Maroc</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.5/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-:root {
-  --primary: #0a9396;
-  --dark: #005f73;
-  --light: #f3f4f6;
+:root{
+  --primary:#0a9396;
+  --secondary:#ee6c4d;
+  --dark:#023047;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background: linear-gradient(135deg,#a8edea,#fed6e3);
 }
 
-body {
-  background: var(--light);
-  color: #333;
+header{
+  background:var(--dark);
+  color:white;
+  padding:1rem;
+  text-align:center;
 }
 
-header {
-  background: var(--dark);
-  color: white;
-  padding: 2rem;
-  text-align: center;
+.container{
+  display:flex;
+  height:calc(100vh - 80px);
 }
 
-header h1 {
-  margin-bottom: .5rem;
+.sidebar{
+  width:340px;
+  background:rgba(255,255,255,0.95);
+  padding:1rem;
+  overflow-y:auto;
+  box-shadow:2px 0 15px rgba(0,0,0,0.15);
 }
 
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  padding: 1rem;
-  background: white;
+.controls input,
+.controls select{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
 }
 
-.controls input, .controls select {
-  padding: .6rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  min-width: 200px;
+.controls label{
+  display:block;
+  margin-bottom:5px;
 }
 
-#mall-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 1.5rem;
+.mall-card{
+  background:white;
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  cursor:pointer;
+  transition:0.3s;
 }
 
-.mall-card {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: .3s;
+.mall-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
 }
 
-.mall-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+.main{
+  flex:1;
+  position:relative;
 }
 
-.mall-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: .5rem;
+#map{
+  height:100%;
 }
 
-.mall-card h3 {
-  color: var(--primary);
-  margin-bottom: .5rem;
+.detail-panel{
+  position:absolute;
+  top:50px;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  width:400px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  display:none;
+  z-index:1000;
 }
 
-#store-view {
-  display: none;
-  padding: 2rem;
+.detail-panel h2{
+  margin-top:0;
 }
 
-#store-view h2 {
-  margin-bottom: 1rem;
-}
-
-#back-btn {
-  margin-bottom: 1rem;
-  padding: .5rem 1rem;
-  border: none;
-  background: var(--primary);
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#back-btn:hover {
-  background: #007f83;
-}
-
-.store-list {
-  columns: 2;
-}
-
-@media(max-width: 768px) {
-  .store-list {
-    columns: 1;
-  }
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #e9ecef;
-  margin-top: 2rem;
+.detail-panel button{
+  background:var(--primary);
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>Malls du Maroc</h1>
-  <p>Liste des principaux centres commerciaux et leurs magasins</p>
+<h1>Dashboard Malls & Marjane Maroc</h1>
 </header>
 
+<div class="container">
+
+<div class="sidebar">
 <div class="controls">
-  <input type="text" id="search" placeholder="Rechercher un mall...">
-  <select id="cityFilter">
-    <option value="">Toutes les villes</option>
-  </select>
+<input type="text" id="search" placeholder="Rechercher un mall...">
+<select id="cityFilter"><option value="">Toutes les villes</option></select>
+<label><input type="checkbox" id="showMalls" checked> Malls</label>
+<label><input type="checkbox" id="showMarjane" checked> Marjane</label>
+</div>
+<div id="mall-list"></div>
 </div>
 
-<main>
-  <section id="mall-list"></section>
+<div class="main">
+<div id="map"></div>
+</div>
 
-  <section id="store-view">
-    <button id="back-btn">← Retour</button>
-    <h2 id="mall-title"></h2>
-    <ul id="stores" class="store-list"></ul>
-  </section>
-</main>
+</div>
 
-<footer>
-  © 2026 - Application Vitrine Malls Maroc
-</footer>
+<div class="detail-panel" id="detail-panel">
+<button id="close-detail">Fermer</button>
+<h2 id="mall-title"></h2>
+<p id="mall-city"></p>
+<p id="mall-address"></p>
+<p><strong>Coordonnées:</strong> <span id="mall-coords"></span></p>
+<h3>Magasins</h3>
+<ul id="stores"></ul>
+<h3>Fast Food</h3>
+<ul id="fastfoods"></ul>
+</div>
 
 <script>
 
-const API_URL = "https://mall-back-hxfbcrhuh7bnd7ge.westeurope-01.azurewebsites.net/api/malls";
+// DATA
+const malls = [
+{ id:1,name:"Morocco Mall",city:"Casablanca",location:{address:"Boulevard de Biarritz",lat:33.5731,lng:-7.7076},stores:["Zara","H&M","Nike"],fastfood:["McDonald's","KFC"],type:"mall"},
+{ id:2,name:"Mega Mall",city:"Rabat",location:{address:"Avenue Mohamed VI",lat:34.0209,lng:-6.8416},stores:["LC Waikiki","Carrefour"],fastfood:["Burger King"],type:"mall"},
+{ id:3,name:"Menara Mall",city:"Marrakech",location:{address:"Avenue Mohammed VI",lat:31.6145,lng:-8.0216},stores:["Puma","Zara"],fastfood:["KFC","Pizza Hut"],type:"mall"},
+{ id:4,name:"Marjane Casablanca",city:"Casablanca",location:{address:"Ain Sebaa",lat:33.6167,lng:-7.575},stores:["Marjane","Electro"],fastfood:["KFC"],type:"marjane"}
+];
 
-let malls = [];
+const mallListEl=document.getElementById("mall-list");
+const searchInput=document.getElementById("search");
+const cityFilter=document.getElementById("cityFilter");
+const showMalls=document.getElementById("showMalls");
+const showMarjane=document.getElementById("showMarjane");
 
-const mallList = document.getElementById("mall-list");
-const storeView = document.getElementById("store-view");
-const mallTitle = document.getElementById("mall-title");
-const storesEl = document.getElementById("stores");
-const backBtn = document.getElementById("back-btn");
-const searchInput = document.getElementById("search");
-const cityFilter = document.getElementById("cityFilter");
+const detailPanel=document.getElementById("detail-panel");
+const closeDetail=document.getElementById("close-detail");
 
+let map,markerCluster;
 
-// Charger les malls depuis l'API
-async function loadMalls() {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Erreur API");
+[...new Set(malls.map(m=>m.city))].forEach(city=>{
+const opt=document.createElement("option");
+opt.value=city;
+opt.textContent=city;
+cityFilter.appendChild(opt);
+});
 
-    malls = await response.json();
+function renderMalls(){
+mallListEl.innerHTML="";
+const search=searchInput.value.toLowerCase();
+const selectedCity=cityFilter.value;
 
-    populateCityFilter();
-    renderMalls();
+const filtered=malls.filter(m=>
+m.name.toLowerCase().includes(search) &&
+(selectedCity===""||m.city===selectedCity) &&
+((m.type==="mall"&&showMalls.checked)||(m.type==="marjane"&&showMarjane.checked))
+);
 
-  } catch (error) {
-    mallList.innerHTML = "<p>Erreur de chargement des malls</p>";
-    console.error(error);
-  }
+filtered.forEach(m=>{
+const card=document.createElement("div");
+card.className="mall-card";
+card.innerHTML=`<strong>${m.name}</strong><br>${m.city}<br>${m.stores.length} magasins - ${m.fastfood.length} fast food`;
+card.onclick=()=>showDetail(m);
+mallListEl.appendChild(card);
+});
+
+renderMap(filtered);
 }
 
+function renderMap(filteredMalls){
+if(map) map.remove();
+map=L.map('map').setView([33.5731,-7.7076],5);
 
-// Remplir filtre villes
-function populateCityFilter() {
-  cityFilter.innerHTML = '<option value="">Toutes les villes</option>';
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+markerCluster=L.markerClusterGroup();
 
-  const cities = [...new Set(malls.map(m => m.city))];
+filteredMalls.forEach(m=>{
+const container=document.createElement("div");
+container.style.width="120px";
+container.style.height="80px";
+container.style.transition="0.3s";
 
-  cities.forEach(city => {
-    const option = document.createElement("option");
-    option.value = city;
-    option.textContent = city;
-    cityFilter.appendChild(option);
-  });
+const canvas=document.createElement("canvas");
+canvas.width=120;
+canvas.height=80;
+container.appendChild(canvas);
+
+const chart=new Chart(canvas.getContext("2d"),{
+type:'doughnut',
+data:{
+labels:['Magasins','FastFood'],
+datasets:[{data:[m.stores.length,m.fastfood.length],
+backgroundColor:['#0a9396','#ee6c4d'],
+borderWidth:0}]
+},
+options:{
+responsive:false,
+cutout:'60%',
+plugins:{legend:{display:false}}
+}
+});
+
+container.addEventListener("mouseenter",()=>{
+container.style.transform="scale(1.2)";
+container.style.filter="drop-shadow(0 8px 15px rgba(0,0,0,0.4))";
+});
+
+container.addEventListener("mouseleave",()=>{
+container.style.transform="scale(1)";
+container.style.filter="none";
+});
+
+const icon=L.divIcon({html:container.outerHTML,className:"",iconSize:[120,80],iconAnchor:[60,40]});
+
+const marker=L.marker([m.location.lat,m.location.lng],{icon:icon})
+.bindPopup(`<b>${m.name}</b><br>${m.location.address}`);
+
+markerCluster.addLayer(marker);
+});
+
+map.addLayer(markerCluster);
 }
 
+function showDetail(m){
+detailPanel.style.display="block";
+document.getElementById("mall-title").textContent=m.name;
+document.getElementById("mall-city").textContent="Ville: "+m.city;
+document.getElementById("mall-address").textContent="Adresse: "+m.location.address;
+document.getElementById("mall-coords").textContent=`${m.location.lat}, ${m.location.lng}`;
 
-// Afficher malls
-function renderMalls() {
+const stores=document.getElementById("stores");
+const fastfoods=document.getElementById("fastfoods");
+stores.innerHTML="";
+fastfoods.innerHTML="";
 
-  mallList.innerHTML = "";
+m.stores.forEach(s=>stores.innerHTML+=`<li>${s}</li>`);
+m.fastfood.forEach(f=>fastfoods.innerHTML+=`<li>${f}</li>`);
 
-  const searchValue = searchInput.value.toLowerCase();
-  const selectedCity = cityFilter.value;
-
-  const filtered = malls.filter(mall =>
-    mall.name.toLowerCase().includes(searchValue) &&
-    (selectedCity === "" || mall.city === selectedCity)
-  );
-
-  if (filtered.length === 0) {
-    mallList.innerHTML = "<p>Aucun mall trouvé</p>";
-    return;
-  }
-
-  filtered.forEach(mall => {
-
-    const card = document.createElement("div");
-    card.className = "mall-card";
-
-    card.innerHTML = `
-      <img src="${mall.image}" alt="${mall.name}">
-      <h3>${mall.name}</h3>
-      <p><strong>Ville:</strong> ${mall.city}</p>
-      <p><strong>Adresse:</strong> ${mall.location.address}</p>
-      <p>${mall.stores.length} magasins</p>
-    `;
-
-    card.onclick = () => showStores(mall);
-
-    mallList.appendChild(card);
-  });
+map.setView([m.location.lat,m.location.lng],15);
 }
 
+searchInput.addEventListener("input",renderMalls);
+cityFilter.addEventListener("change",renderMalls);
+showMalls.addEventListener("change",renderMalls);
+showMarjane.addEventListener("change",renderMalls);
+closeDetail.addEventListener("click",()=>detailPanel.style.display="none");
 
-// Voir magasins
-function showStores(mall) {
-
-  mallList.style.display = "none";
-  storeView.style.display = "block";
-
-  mallTitle.textContent = mall.name + " - Magasins";
-
-  storesEl.innerHTML = "";
-
-  mall.stores.forEach(store => {
-    const li = document.createElement("li");
-    li.textContent = store;
-    storesEl.appendChild(li);
-  });
-}
-
-
-// Retour liste
-backBtn.onclick = () => {
-  storeView.style.display = "none";
-  mallList.style.display = "grid";
-};
-
-
-// Events
-searchInput.addEventListener("input", renderMalls);
-cityFilter.addEventListener("change", renderMalls);
-
-
-// Init
-loadMalls();
+renderMalls();
 
 </script>
-
 </body>
 </html>
