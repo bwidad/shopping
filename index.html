@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malls du Maroc</title>
+
+<style>
+:root {
+  --primary: #0a9396;
+  --dark: #005f73;
+  --light: #f3f4f6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: var(--light);
+  color: #333;
+}
+
+header {
+  background: var(--dark);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: .5rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  background: white;
+}
+
+.controls input, .controls select {
+  padding: .6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+}
+
+#mall-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.mall-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: .3s;
+}
+
+.mall-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.mall-card h3 {
+  color: var(--primary);
+  margin-bottom: .5rem;
+}
+
+#store-view {
+  display: none;
+  padding: 2rem;
+}
+
+#store-view h2 {
+  margin-bottom: 1rem;
+}
+
+#back-btn {
+  margin-bottom: 1rem;
+  padding: .5rem 1rem;
+  border: none;
+  background: var(--primary);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#back-btn:hover {
+  background: #007f83;
+}
+
+.store-list {
+  columns: 2;
+}
+
+@media(max-width: 768px) {
+  .store-list {
+    columns: 1;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #e9ecef;
+  margin-top: 2rem;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Malls du Maroc</h1>
+  <p>Liste des principaux centres commerciaux et leurs magasins</p>
+</header>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Rechercher un mall...">
+  <select id="cityFilter">
+    <option value="">Toutes les villes</option>
+  </select>
+</div>
+
+<main>
+  <section id="mall-list"></section>
+
+  <section id="store-view">
+    <button id="back-btn">← Retour</button>
+    <h2 id="mall-title"></h2>
+    <ul id="stores" class="store-list"></ul>
+  </section>
+</main>
+
+<footer>
+  © 2026 - Application Vitrine Malls Maroc
+</footer>
+
+<script>
+const malls = [
+  {
+    name: "Morocco Mall",
+    city: "Casablanca",
+    stores: ["Zara","H&M","Nike","Adidas","Apple Store","Sephora","Pull&Bear","Bershka","Massimo Dutti"]
+  },
+  {
+    name: "Anfaplace Shopping Center",
+    city: "Casablanca",
+    stores: ["Mango","Calvin Klein","Foot Locker","Starbucks","Stradivarius","Guess"]
+  },
+  {
+    name: "Mega Mall",
+    city: "Rabat",
+    stores: ["Bershka","Adidas","Samsung","LC Waikiki","Carrefour"]
+  },
+  {
+    name: "Menara Mall",
+    city: "Marrakech",
+    stores: ["H&M","Zara","Puma","KFC","McDonald's","Celio"]
+  },
+  {
+    name: "Tanger City Mall",
+    city: "Tanger",
+    stores: ["Defacto","Nike","Adidas","Starbucks","Carrefour Market"]
+  }
+];
+
+const mallList = document.getElementById("mall-list");
+const storeView = document.getElementById("store-view");
+const mallTitle = document.getElementById("mall-title");
+const storesEl = document.getElementById("stores");
+const backBtn = document.getElementById("back-btn");
+const searchInput = document.getElementById("search");
+const cityFilter = document.getElementById("cityFilter");
+
+// Remplir filtre villes
+const cities = [...new Set(malls.map(m => m.city))];
+cities.forEach(city => {
+  const option = document.createElement("option");
+  option.value = city;
+  option.textContent = city;
+  cityFilter.appendChild(option);
+});
+
+// Afficher malls
+function renderMalls() {
+  mallList.innerHTML = "";
+  const searchValue = searchInput.value.toLowerCase();
+  const selectedCity = cityFilter.value;
+
+  const filtered = malls.filter(mall =>
+    mall.name.toLowerCase().includes(searchValue) &&
+    (selectedCity === "" || mall.city === selectedCity)
+  );
+
+  filtered.forEach(mall => {
+    const card = document.createElement("div");
+    card.className = "mall-card";
+    card.innerHTML = `
+      <h3>${mall.name}</h3>
+      <p><strong>Ville:</strong> ${mall.city}</p>
+      <p>${mall.stores.length} magasins</p>
+    `;
+    card.onclick = () => showStores(mall);
+    mallList.appendChild(card);
+  });
+}
+
+// Voir magasins
+function showStores(mall) {
+  mallList.style.display = "none";
+  storeView.style.display = "block";
+  mallTitle.textContent = mall.name + " - Magasins";
+
+  storesEl.innerHTML = "";
+  mall.stores.forEach(store => {
+    const li = document.createElement("li");
+    li.textContent = store;
+    storesEl.appendChild(li);
+  });
+}
+
+backBtn.onclick = () => {
+  storeView.style.display = "none";
+  mallList.style.display = "grid";
+};
+
+searchInput.addEventListener("input", renderMalls);
+cityFilter.addEventListener("change", renderMalls);
+
+renderMalls();
+</script>
+
+</body>
+</html>
