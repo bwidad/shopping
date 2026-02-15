@@ -3,277 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malls & Restaurants Maroc</title>
+<title>Malls & Marjane Maroc - Détails Complets</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-
 <script src="https://unpkg.com/leaflet@1.9.5/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <style>
-:root{
---primary:#0a9396;
---dark:#023047;
---light-bg:linear-gradient(135deg,#a8edea,#fed6e3);
---dark-bg:#121212;
-}
-
 body{
 margin:0;
-font-family:'Segoe UI',sans-serif;
-background:var(--light-bg);
-transition:0.3s;
-}
-
-body.dark{
-background:var(--dark-bg);
-color:white;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#d4fc79,#96e6a1);
 }
 
 header{
-background:var(--dark);
+background:#023047;
 color:white;
-padding:1rem;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-button{
-padding:6px 10px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-background:var(--primary);
-color:white;
+padding:15px;
+text-align:center;
 }
 
 .container{
 display:flex;
-height:calc(100vh - 80px);
+height:90vh;
 }
 
 .sidebar{
-width:370px;
-background:rgba(255,255,255,0.95);
-padding:1rem;
-overflow-y:auto;
-}
-
-body.dark .sidebar{
-background:#1e1e1e;
-}
-
-.stat-box{
+width:380px;
 background:white;
+overflow-y:auto;
 padding:10px;
-margin-bottom:10px;
-border-radius:8px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-body.dark .stat-box{
-background:#2a2a2a;
 }
 
 .mall-card{
-background:white;
+background:#f1f1f1;
 padding:10px;
-margin-bottom:8px;
+margin-bottom:12px;
 border-radius:8px;
-cursor:pointer;
-transition:0.3s;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
 }
 
-body.dark .mall-card{
-background:#2a2a2a;
-}
-
-.mall-card:hover{
-transform:scale(1.02);
+.mall-card img{
+width:100%;
+border-radius:8px;
+margin-bottom:8px;
 }
 
 .main{flex:1;}
 #map{height:100%;}
-
-select,input{
-width:100%;
-padding:6px;
-margin-bottom:8px;
-border-radius:6px;
-border:1px solid #ccc;
-}
 </style>
 </head>
 <body>
 
 <header>
-<h2>Malls & Restaurants du Maroc</h2>
-<button onclick="toggleDarkMode()">🌙 Mode</button>
+<h2>Malls & Centres Marjane du Maroc</h2>
 </header>
 
 <div class="container">
-
-<div class="sidebar">
-
-<div class="stat-box">
-<b>Total Malls:</b> <span id="statMalls"></span><br>
-<b>Total Magasins:</b> <span id="statStores"></span><br>
-<b>Total Restaurants:</b> <span id="statRestaurants"></span>
-</div>
-
-<input type="text" id="searchMall" placeholder="Rechercher un mall...">
-<input type="text" id="searchGlobal" placeholder="Rechercher magasin ou restaurant...">
-
-<select id="categoryFilter">
-<option value="">Toutes catégories</option>
-<option value="Mode">Mode</option>
-<option value="Sport">Sport</option>
-<option value="Beauté">Beauté</option>
-<option value="Tech">Tech</option>
-<option value="Food">Food</option>
-</select>
-
-<div id="mallList"></div>
-
-</div>
-
-<div class="main">
-<div id="map"></div>
-</div>
-
+<div class="sidebar" id="mallList"></div>
+<div class="main"><div id="map"></div></div>
 </div>
 
 <script>
-
-function toggleDarkMode(){
-document.body.classList.toggle("dark");
-}
 
 const malls=[
 
 {
 name:"Morocco Mall",
 city:"Casablanca",
+hours:"10:00 - 22:00",
 lat:33.5731,lng:-7.7076,
-stores:[
-{name:"Zara",cat:"Mode"},
-{name:"Nike",cat:"Sport"},
-{name:"Sephora",cat:"Beauté"},
-{name:"Samsung Store",cat:"Tech"},
-{name:"Virgin Megastore",cat:"Tech"}
-],
-restaurants:[
-{name:"McDonald's",rating:4.2,hours:"10:00 - 23:00"},
-{name:"KFC",rating:4.0,hours:"10:00 - 23:00"},
-{name:"Burger King",rating:4.1,hours:"10:00 - 23:00"},
-{name:"Pizza Hut",rating:3.9,hours:"10:00 - 23:00"},
-{name:"Starbucks",rating:4.5,hours:"09:00 - 23:00"},
-{name:"Paul",rating:4.3,hours:"08:30 - 22:30"}
-]
+image:"https://upload.wikimedia.org/wikipedia/commons/5/5d/Morocco_Mall.jpg",
+stores:["Zara","H&M","Nike","Adidas","Sephora","Samsung Store","Virgin Megastore"],
+restaurants:["McDonald's","KFC","Burger King","Pizza Hut","Starbucks","Paul"]
+},
+
+{
+name:"AnfaPlace Mall",
+city:"Casablanca",
+hours:"10:00 - 21:30",
+lat:33.5993,lng:-7.6680,
+image:"https://upload.wikimedia.org/wikipedia/commons/6/63/AnfaPlace_Mall.jpg",
+stores:["Zara","Pull&Bear","Massimo Dutti","Adidas"],
+restaurants:["Starbucks","Pizza Hut","McDonald's"]
 },
 
 {
 name:"Mega Mall",
 city:"Rabat",
+hours:"10:00 - 22:00",
 lat:34.0209,lng:-6.8416,
-stores:[
-{name:"LC Waikiki",cat:"Mode"},
-{name:"Carrefour",cat:"Food"},
-{name:"Adidas",cat:"Sport"}
-],
-restaurants:[
-{name:"Burger King",rating:4.0,hours:"10:00 - 22:30"},
-{name:"Pizza Hut",rating:3.8,hours:"10:00 - 23:00"},
-{name:"Starbucks",rating:4.4,hours:"09:00 - 22:30"},
-{name:"O’Tacos",rating:4.1,hours:"11:00 - 23:00"}
-]
+image:"https://upload.wikimedia.org/wikipedia/commons/3/3b/Mega_Mall_Rabat.jpg",
+stores:["LC Waikiki","Carrefour","Adidas","Yves Rocher"],
+restaurants:["Burger King","Pizza Hut","Starbucks","O’Tacos"]
+},
+
+{
+name:"Menara Mall",
+city:"Marrakech",
+hours:"10:00 - 22:00",
+lat:31.6145,lng:-8.0216,
+image:"https://upload.wikimedia.org/wikipedia/commons/8/83/Menara_Mall_Marrakech.jpg",
+stores:["Zara","Mango","LC Waikiki","Electroplanet"],
+restaurants:["KFC","McDonald's","Starbucks","Paul"]
+},
+
+{
+name:"Ibn Battouta Mall",
+city:"Tanger",
+hours:"10:00 - 22:00",
+lat:35.7595,lng:-5.8339,
+image:"https://upload.wikimedia.org/wikipedia/commons/2/2c/Ibn_Battouta_Mall.jpg",
+stores:["Zara","Adidas","Nike","Miniso"],
+restaurants:["Burger King","KFC","Starbucks"]
+},
+
+{
+name:"Borj Fez Mall",
+city:"Fès",
+hours:"10:00 - 21:30",
+lat:34.0331,lng:-5.0033,
+image:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Borj_Fez_Mall.jpg",
+stores:["Zara","LC Waikiki","Marwa","Adidas"],
+restaurants:["McDonald's","Pizza Hut","Starbucks"]
+},
+
+// ===== MARJANE =====
+
+{
+name:"Marjane Ain Sebaa",
+city:"Casablanca",
+hours:"09:00 - 22:00",
+lat:33.6167,lng:-7.5750,
+image:"https://upload.wikimedia.org/wikipedia/commons/1/19/Marjane_Morocco.jpg",
+stores:["Marjane Hypermarket","Decathlon","Kiabi","Samsung Store"],
+restaurants:["KFC","Pizza Hut","Snack Express"]
+},
+
+{
+name:"Marjane Rabat",
+city:"Rabat",
+hours:"09:00 - 22:00",
+lat:34.0400,lng:-6.8300,
+image:"https://upload.wikimedia.org/wikipedia/commons/1/19/Marjane_Morocco.jpg",
+stores:["Marjane Hypermarket","Electroplanet","Defacto"],
+restaurants:["Burger King","Starbucks"]
+},
+
+{
+name:"Marjane Marrakech",
+city:"Marrakech",
+hours:"09:00 - 22:00",
+lat:31.6295,lng:-8.0083,
+image:"https://upload.wikimedia.org/wikipedia/commons/1/19/Marjane_Morocco.jpg",
+stores:["Marjane Hypermarket","Decathlon","LC Waikiki"],
+restaurants:["KFC","Pizza Hut"]
 }
 
 ];
 
 const mallList=document.getElementById("mallList");
-const searchMall=document.getElementById("searchMall");
-const searchGlobal=document.getElementById("searchGlobal");
-const categoryFilter=document.getElementById("categoryFilter");
 
 let map=L.map('map').setView([33.7,-7],6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-let markers=L.markerClusterGroup();
-map.addLayer(markers);
-
-function renderStars(rating){
-let stars="";
-for(let i=1;i<=5;i++){
-stars+= i<=Math.round(rating) ? "⭐" : "☆";
-}
-return stars;
-}
-
-function updateStats(){
-document.getElementById("statMalls").textContent=malls.length;
-document.getElementById("statStores").textContent=
-malls.reduce((a,b)=>a+b.stores.length,0);
-document.getElementById("statRestaurants").textContent=
-malls.reduce((a,b)=>a+b.restaurants.length,0);
-}
-
-function render(){
-mallList.innerHTML="";
-markers.clearLayers();
-
-const mallSearch=searchMall.value.toLowerCase();
-const globalSearch=searchGlobal.value.toLowerCase();
-const cat=categoryFilter.value;
 
 malls.forEach(m=>{
 
-if(!m.name.toLowerCase().includes(mallSearch)) return;
-
-let filteredStores=m.stores.filter(s=>
-s.name.toLowerCase().includes(globalSearch) &&
-(cat===""||s.cat===cat)
-);
-
-let filteredRestaurants=m.restaurants.filter(r=>
-r.name.toLowerCase().includes(globalSearch)
-);
-
-if(globalSearch && filteredStores.length===0 && filteredRestaurants.length===0) return;
-
+// Sidebar card
 const div=document.createElement("div");
 div.className="mall-card";
 div.innerHTML=`
-<b>${m.name}</b><br>
-🛍 ${m.stores.length} magasins<br>
-🍴 ${m.restaurants.length} restaurants
+<img src="${m.image}" alt="${m.name}">
+<h3>${m.name}</h3>
+📍 ${m.city}<br>
+🕒 ${m.hours}<br><br>
+<b>Magasins :</b><br>
+${m.stores.join(", ")}<br><br>
+<b>Restaurants :</b><br>
+${m.restaurants.join(", ")}
 `;
 mallList.appendChild(div);
 
-const popupContent=`
-<b>${m.name}</b><br><br>
+// Map marker
+L.marker([m.lat,m.lng])
+.addTo(map)
+.bindPopup(`
+<b>${m.name}</b><br>
+📍 ${m.city}<br>
+🕒 ${m.hours}<br><br>
+<b>Magasins :</b><br>
+${m.stores.join(", ")}<br><br>
 <b>Restaurants :</b><br>
-${m.restaurants.map(r=>
-`🍽 ${r.name}<br>
-${renderStars(r.rating)} (${r.rating})<br>
-🕒 ${r.hours}<br><br>`
-).join("")}
-`;
-
-const marker=L.marker([m.lat,m.lng]).bindPopup(popupContent);
-markers.addLayer(marker);
+${m.restaurants.join(", ")}
+`);
 
 });
-
-updateStats();
-}
-
-searchMall.addEventListener("input",render);
-searchGlobal.addEventListener("input",render);
-categoryFilter.addEventListener("change",render);
-
-render();
 
 </script>
 
