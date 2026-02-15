@@ -3,162 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malls et Centres Marjane du Maroc</title>
+<title>Dashboard Malls et Marjane Maroc</title>
 
-<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css"
  integrity="sha256-sA+e2lqcwYbYkYkG+LoS2t4C8WvPzQ2Yr6Hs0zGiUJ8=" crossorigin=""/>
 
 <style>
-:root {
-  --primary: #0a9396;
-  --dark: #023047;
-  --light: #e7ecef;
-  --white: #ffffff;
-  --card-bg: #ffffff;
-  --text-dark: #222;
+:root{
+  --primary:#0a9396;
+  --dark:#023047;
+  --light:#e7ecef;
+  --white:#fff;
+  --text:#222;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background: var(--light); color: var(--text-dark); }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif;}
+body{background:var(--light);color:var(--text);}
 
-header { background: var(--dark); color: var(--white); text-align:center; padding:2rem; }
-header h1 { font-size:2rem; margin-bottom:0.4rem; }
-header p { font-size:1rem; }
+header{background:var(--dark);color:var(--white);padding:1rem;text-align:center;}
+header h1{font-size:1.8rem;}
+header p{font-size:0.9rem;}
 
-.controls { display:flex; justify-content:center; align-items:center; gap:1rem; padding:1rem; background:var(--white); flex-wrap:wrap; }
-.controls input, .controls select { padding:0.7rem; border:1px solid #aaa; border-radius:6px; min-width:150px; }
-.controls label { font-weight: bold; }
+.container{display:flex;flex-direction:row;height:calc(100vh - 80px);}
+.sidebar{width:350px;overflow-y:auto;background:var(--white);padding:1rem;box-shadow:2px 0 8px rgba(0,0,0,0.1);}
+.main{flex:1;display:flex;flex-direction:column;}
+.controls{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;}
+.controls input,.controls select{padding:0.5rem;border:1px solid #aaa;border-radius:5px;}
+.controls label{display:flex;align-items:center;gap:0.2rem;font-weight:500;}
 
-#mall-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; padding:1.5rem; }
+#mall-list{display:grid;grid-template-columns:1fr;gap:0.8rem;}
+.mall-card{background:var(--white);border-radius:8px;box-shadow:0 1px 5px rgba(0,0,0,0.1);cursor:pointer;transition:0.3s;overflow:hidden;}
+.mall-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.mall-card img{width:100%;height:150px;object-fit:cover;}
+.mall-card .info{padding:0.5rem;}
+.mall-card h3{color:var(--primary);font-size:1rem;margin-bottom:0.2rem;}
+.mall-card p{font-size:0.85rem;margin:0.1rem 0;}
 
-.mall-card { background: var(--card-bg); border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); overflow:hidden; cursor:pointer; transition:0.3s; }
-.mall-card:hover { transform:translateY(-4px); box-shadow:0 4px 15px rgba(0,0,0,0.15); }
-.mall-card img { width:100%; height:180px; object-fit:cover; }
-.mall-card .info { padding:1rem; }
-.mall-card h3 { color: var(--primary); margin-bottom:0.5rem; }
+#map{flex:1;border-radius:8px;}
 
-#detail-view { display:none; padding:2rem; }
-#detail-view h2 { font-size:1.8rem; margin-bottom:0.5rem; }
-#detail-view p { margin:0.3rem 0; }
-#back-btn { padding:0.6rem 1.2rem; background:var(--primary); color:var(--white); border:none; border-radius:6px; cursor:pointer; margin-bottom:1rem; }
-.store-list { padding-left:1.2rem; margin-top:0.8rem; }
+.detail-panel{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:90%;max-width:600px;background:var(--white);padding:1rem;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.3);display:none;z-index:1000;}
+.detail-panel h2{margin-bottom:0.3rem;}
+.detail-panel p{font-size:0.85rem;margin:0.2rem 0;}
+.detail-panel .store-list{padding-left:1rem;margin-top:0.5rem;}
+.detail-panel button{margin-top:0.5rem;padding:0.4rem 0.8rem;border:none;background:var(--primary);color:var(--white);border-radius:5px;cursor:pointer;}
 
-#map { height: 500px; width: 100%; margin-top:1rem; border-radius:10px; }
+footer{text-align:center;padding:0.5rem;background:#ddd;font-size:0.8rem;}
 
-footer { text-align:center; padding:1rem; background:#ddd; margin-top:2rem; }
-
-@media(max-width:768px){ .controls{flex-direction:column;} .mall-card img{height:150px;} }
+@media(max-width:900px){.container{flex-direction:column;height:auto;}.sidebar{width:100%;max-height:300px;}.main{height:400px;}}
 </style>
 </head>
 
 <body>
-
 <header>
-  <h1>Malls et Centres Marjane du Maroc</h1>
-  <p>Explorez les centres commerciaux avec leurs magasins et leur localisation</p>
+  <h1>Dashboard Malls & Marjane Maroc</h1>
+  <p>Explorez tous les centres commerciaux et Marjane avec cartes et magasins</p>
 </header>
 
-<div class="controls">
-  <input type="text" id="search" placeholder="Rechercher un mall...">
-  <select id="cityFilter">
-    <option value="">Toutes les villes</option>
-  </select>
-  <label>
-    <input type="checkbox" id="showMalls" checked> Malls
-  </label>
-  <label>
-    <input type="checkbox" id="showMarjane" checked> Centres Marjane
-  </label>
+<div class="container">
+  <div class="sidebar">
+    <div class="controls">
+      <input type="text" id="search" placeholder="Rechercher un mall...">
+      <select id="cityFilter"><option value="">Toutes les villes</option></select>
+      <label><input type="checkbox" id="showMalls" checked> Malls</label>
+      <label><input type="checkbox" id="showMarjane" checked> Marjane</label>
+    </div>
+    <div id="mall-list"></div>
+  </div>
+  <div class="main">
+    <div id="map"></div>
+  </div>
 </div>
 
-<main>
-  <section id="mall-list"></section>
+<div class="detail-panel" id="detail-panel">
+  <button id="close-detail">✕ Fermer</button>
+  <h2 id="mall-title"></h2>
+  <p id="mall-city"></p>
+  <p id="mall-address"></p>
+  <p><strong>Coordonnées:</strong> <span id="mall-coords"></span></p>
+  <h3>Magasins:</h3>
+  <ul id="stores" class="store-list"></ul>
+</div>
 
-  <section id="detail-view">
-    <button id="back-btn">← Retour</button>
-    <h2 id="mall-title"></h2>
-    <p id="mall-city"></p>
-    <p id="mall-address"></p>
-    <p><strong>Coordonnées :</strong> <span id="mall-coords"></span></p>
+<footer>© 2026 - Dashboard Malls & Centres Marjane</footer>
 
-    <h3>Magasins :</h3>
-    <ul id="stores" class="store-list"></ul>
-
-    <h3>Localisation sur la carte :</h3>
-    <div id="map"></div>
-  </section>
-</main>
-
-<footer>© 2026 - Vitrine Malls et Centres Marjane</footer>
-
-<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.5/dist/leaflet.js"
  integrity="sha256-kx0xY4/kTfShGvs6p7lvlaO/lC0D2n7fTgFhE0tPzQM=" crossorigin=""></script>
 
 <script>
 // ===== DONNÉES =====
 const malls = [
-  { id: 1, name: "Morocco Mall", city: "Casablanca", image: "https://source.unsplash.com/800x500/?mall,shopping,casablanca", location: { address: "Boulevard de Biarritz, Casablanca", lat: 33.5731, lng: -7.7076 }, stores: ["Zara","H&M","Nike","Adidas","Apple Store","Sephora"], type: "mall" },
-  { id: 2, name: "Anfaplace Shopping Center", city: "Casablanca", image: "https://source.unsplash.com/800x500/?shopping-center,casablanca", location: { address: "Boulevard de la Corniche, Casablanca", lat: 33.5992, lng: -7.6647 }, stores: ["Mango","Calvin Klein","Foot Locker","Starbucks"], type: "mall" },
-  { id: 3, name: "Mega Mall", city: "Rabat", image: "https://source.unsplash.com/800x500/?mall,rabat", location: { address: "Avenue Mohamed VI, Rabat", lat: 34.0209, lng: -6.8416 }, stores: ["LC Waikiki","Samsung","Carrefour","Bershka"], type: "mall" },
-  { id: 4, name: "Menara Mall", city: "Marrakech", image: "https://source.unsplash.com/800x500/?mall,marrakech", location: { address: "Avenue Mohammed VI, Marrakech", lat: 31.6145, lng: -8.0216 }, stores: ["Puma","KFC","Celio","Zara"], type: "mall" },
-  { id: 5, name: "Tanger City Mall", city: "Tanger", image: "https://source.unsplash.com/800x500/?mall,tanger", location: { address: "Route de Malabata, Tanger", lat: 35.7733, lng: -5.7766 }, stores: ["Nike","Adidas","Defacto","Carrefour Market"], type: "mall" },
-  { id: 6, name: "Marjane Casablanca Ain Sebaa", city: "Casablanca", image: "https://source.unsplash.com/800x500/?marjane,casablanca", location: { address: "Ain Sebaa, Casablanca", lat: 33.6167, lng: -7.575 }, stores: ["Marjane Supermarché","Carrefour Express","Pharmacie","Boutiques diverses"], type: "marjane" },
-  { id: 7, name: "Marjane Rabat Agdal", city: "Rabat", image: "https://source.unsplash.com/800x500/?marjane,rabat", location: { address: "Agdal, Rabat", lat: 34.0267, lng: -6.835 }, stores: ["Marjane Hyper","Boutiques Mode","Electroménager","Restaurants"], type: "marjane" },
-  { id: 8, name: "Marjane Marrakech Guéliz", city: "Marrakech", image: "https://source.unsplash.com/800x500/?marjane,marrakech", location: { address: "Guéliz, Marrakech", lat: 31.631, lng: -8.008 }, stores: ["Marjane Supermarché","Boutiques Mode","Electroménager","Cinéplex"], type: "marjane" }
+  { id:1,name:"Morocco Mall",city:"Casablanca",image:"https://source.unsplash.com/800x500/?mall,casablanca",location:{address:"Boulevard de Biarritz, Casablanca",lat:33.5731,lng:-7.7076},stores:["Zara","H&M","Nike","Adidas","Apple Store","Sephora"],type:"mall" },
+  { id:2,name:"Anfaplace Shopping Center",city:"Casablanca",image:"https://source.unsplash.com/800x500/?shopping-center,casablanca",location:{address:"Boulevard de la Corniche, Casablanca",lat:33.5992,lng:-7.6647},stores:["Mango","Calvin Klein","Foot Locker","Starbucks"],type:"mall" },
+  { id:3,name:"Mega Mall",city:"Rabat",image:"https://source.unsplash.com/800x500/?mall,rabat",location:{address:"Avenue Mohamed VI, Rabat",lat:34.0209,lng:-6.8416},stores:["LC Waikiki","Samsung","Carrefour","Bershka"],type:"mall" },
+  { id:4,name:"Menara Mall",city:"Marrakech",image:"https://source.unsplash.com/800x500/?mall,marrakech",location:{address:"Avenue Mohammed VI, Marrakech",lat:31.6145,lng:-8.0216},stores:["Puma","KFC","Celio","Zara"],type:"mall" },
+  { id:5,name:"Tanger City Mall",city:"Tanger",image:"https://source.unsplash.com/800x500/?mall,tanger",location:{address:"Route de Malabata, Tanger",lat:35.7733,lng:-5.7766},stores:["Nike","Adidas","Defacto","Carrefour Market"],type:"mall" },
+  { id:6,name:"Marjane Casablanca Ain Sebaa",city:"Casablanca",image:"https://source.unsplash.com/800x500/?marjane,casablanca",location:{address:"Ain Sebaa, Casablanca",lat:33.6167,lng:-7.575},stores:["Marjane Supermarché","Carrefour Express","Pharmacie","Boutiques diverses"],type:"marjane" },
+  { id:7,name:"Marjane Rabat Agdal",city:"Rabat",image:"https://source.unsplash.com/800x500/?marjane,rabat",location:{address:"Agdal, Rabat",lat:34.0267,lng:-6.835},stores:["Marjane Hyper","Boutiques Mode","Electroménager","Restaurants"],type:"marjane" },
+  { id:8,name:"Marjane Marrakech Guéliz",city:"Marrakech",image:"https://source.unsplash.com/800x500/?marjane,marrakech",location:{address:"Guéliz, Marrakech",lat:31.631,lng:-8.008},stores:["Marjane Supermarché","Boutiques Mode","Electroménager","Cinéplex"],type:"marjane" }
 ];
 
 // ===== DOM =====
-const mallListEl = document.getElementById("mall-list");
-const detailView = document.getElementById("detail-view");
-const mallTitle = document.getElementById("mall-title");
-const mallCity = document.getElementById("mall-city");
-const mallAddress = document.getElementById("mall-address");
-const mallCoords = document.getElementById("mall-coords");
-const storesEl = document.getElementById("stores");
-const backBtn = document.getElementById("back-btn");
-const searchInput = document.getElementById("search");
-const cityFilter = document.getElementById("cityFilter");
-const showMalls = document.getElementById("showMalls");
-const showMarjane = document.getElementById("showMarjane");
+const mallListEl=document.getElementById("mall-list");
+const searchInput=document.getElementById("search");
+const cityFilter=document.getElementById("cityFilter");
+const showMalls=document.getElementById("showMalls");
+const showMarjane=document.getElementById("showMarjane");
+
+const detailPanel=document.getElementById("detail-panel");
+const closeDetail=document.getElementById("close-detail");
+const mallTitle=document.getElementById("mall-title");
+const mallCity=document.getElementById("mall-city");
+const mallAddress=document.getElementById("mall-address");
+const mallCoords=document.getElementById("mall-coords");
+const storesEl=document.getElementById("stores");
 
 let map;
-let markers = [];
+let markers=[];
 
 // ===== INIT FILTERS =====
-const cities = [...new Set(malls.map(m=>m.city))];
-cities.forEach(city=>{
-  const option = document.createElement("option");
-  option.value = city;
-  option.textContent = city;
-  cityFilter.appendChild(option);
+[...new Set(malls.map(m=>m.city))].forEach(city=>{
+  const opt=document.createElement("option"); opt.value=city; opt.textContent=city; cityFilter.appendChild(opt);
 });
 
 // ===== RENDER LIST =====
 function renderMalls(){
   mallListEl.innerHTML="";
-  const search = searchInput.value.toLowerCase();
-  const selectedCity = cityFilter.value;
-
-  const filtered = malls.filter(m=>
-    m.name.toLowerCase().includes(search) &&
+  const search=searchInput.value.toLowerCase();
+  const selectedCity=cityFilter.value;
+  const filtered=malls.filter(m=>m.name.toLowerCase().includes(search) &&
     (selectedCity===""||m.city===selectedCity) &&
-    ((m.type==="mall" && showMalls.checked) || (m.type==="marjane" && showMarjane.checked))
+    ((m.type==="mall" && showMalls.checked)||(m.type==="marjane" && showMarjane.checked))
   );
 
-  filtered.forEach(mall=>{
-    const card=document.createElement("div");
-    card.className="mall-card";
-    card.innerHTML=`
-      <img src="${mall.image}" alt="${mall.name}">
-      <div class="info">
-        <h3>${mall.name}</h3>
-        <p><strong>Ville:</strong> ${mall.city}</p>
-        <p>${mall.stores.length} magasins</p>
-      </div>
-    `;
-    card.onclick=()=>showDetail(mall);
+  filtered.forEach(m=>{
+    const card=document.createElement("div"); card.className="mall-card";
+    card.innerHTML=`<img src="${m.image}" alt="${m.name}"><div class="info"><h3>${m.name}</h3><p>${m.city}</p><p>${m.stores.length} magasins</p></div>`;
+    card.onclick=()=>showDetail(m);
     mallListEl.appendChild(card);
   });
 
@@ -168,77 +148,47 @@ function renderMalls(){
 // ===== RENDER MAP =====
 function renderMap(filteredMalls){
   if(map) map.remove();
-  map = L.map('map').setView([33.5731,-7.7076],5);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OpenStreetMap contributors'
-  }).addTo(map);
-
+  map=L.map('map').setView([33.5731,-7.7076],5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
   markers=[];
   filteredMalls.forEach(m=>{
-    const icon = L.divIcon({
-      html: m.type==="marjane"?"🛒":"🏬",
-      className:"",
-      iconSize:[30,30],
-      iconAnchor:[15,15]
-    });
-
-    const marker = L.marker([m.location.lat,m.location.lng],{icon:icon}).addTo(map)
+    const icon=L.divIcon({html:m.type==="marjane"?"🛒":"🏬",className:"",iconSize:[30,30],iconAnchor:[15,15]});
+    const marker=L.marker([m.location.lat,m.location.lng],{icon:icon}).addTo(map)
       .bindPopup(`<b>${m.name}</b><br>${m.location.address}`);
-    
-    marker.on('mouseover', function(){ this.setZIndexOffset(1000); });
-    marker.on('mouseout', function(){ this.setZIndexOffset(0); });
-
+    marker.on('mouseover',()=>marker.setZIndexOffset(1000));
+    marker.on('mouseout',()=>marker.setZIndexOffset(0));
     markers.push(marker);
   });
-
-  // Zoom sur la ville si filtrée
   if(cityFilter.value){
-    const cityMalls = filteredMalls.filter(m=>m.city===cityFilter.value);
+    const cityMalls=filteredMalls.filter(m=>m.city===cityFilter.value);
     if(cityMalls.length){
-      const latLngs = cityMalls.map(m=>[m.location.lat,m.location.lng]);
-      const bounds = L.latLngBounds(latLngs);
-      map.fitBounds(bounds, {padding:[50,50]});
+      const bounds=L.latLngBounds(cityMalls.map(m=>[m.location.lat,m.location.lng]));
+      map.fitBounds(bounds,{padding:[50,50]});
     }
   }
 }
 
 // ===== SHOW DETAIL =====
-function showDetail(mall){
-  mallListEl.style.display="none";
-  detailView.style.display="block";
-
-  mallTitle.textContent=mall.name;
-  mallCity.textContent="Ville: "+mall.city;
-  mallAddress.textContent="Adresse: "+mall.location.address;
-  mallCoords.textContent=`Lat: ${mall.location.lat}, Lng: ${mall.location.lng}`;
-
+function showDetail(m){
+  detailPanel.style.display="block";
+  mallTitle.textContent=m.name;
+  mallCity.textContent="Ville: "+m.city;
+  mallAddress.textContent="Adresse: "+m.location.address;
+  mallCoords.textContent=`Lat: ${m.location.lat}, Lng: ${m.location.lng}`;
   storesEl.innerHTML="";
-  mall.stores.forEach(store=>{
-    const li=document.createElement("li");
-    li.textContent=store;
-    storesEl.appendChild(li);
-  });
-
-  // Zoom carte sur le mall
-  map.setView([mall.location.lat,mall.location.lng],15);
+  m.stores.forEach(s=>{const li=document.createElement("li");li.textContent=s;storesEl.appendChild(li);});
+  map.setView([m.location.lat,m.location.lng],15);
 }
-
-// ===== BACK BUTTON =====
-backBtn.onclick=()=>{
-  detailView.style.display="none";
-  mallListEl.style.display="grid";
-};
 
 // ===== EVENTS =====
 searchInput.addEventListener("input",renderMalls);
 cityFilter.addEventListener("change",renderMalls);
 showMalls.addEventListener("change",renderMalls);
 showMarjane.addEventListener("change",renderMalls);
+closeDetail.addEventListener("click",()=>detailPanel.style.display="none");
 
-// ===== INITIAL =====
+// ===== INIT =====
 renderMalls();
 </script>
-
 </body>
 </html>
