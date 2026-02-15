@@ -6,69 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
         }
 
+        /* HEADER */
         header {
-            background-color: #1b5e20;
+            background-color: #0d47a1;
             color: white;
-            text-align: center;
             padding: 25px;
+            text-align: center;
         }
 
         header h1 {
             margin: 0;
-            font-size: 40px;
-            letter-spacing: 3px;
+            font-size: 42px;
+            letter-spacing: 4px;
         }
 
-        .hero {
-            background-color: #2e7d32;
-            color: white;
+        .subtitle {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
+            background-color: #1976d2;
+            color: white;
         }
 
+        /* CONTAINER */
         .container {
             padding: 30px;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: auto;
         }
 
         h2 {
-            color: #1b5e20;
+            color: #0d47a1;
             margin-top: 40px;
+            margin-bottom: 20px;
         }
 
-        .card {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
+        /* GRID WINDOWS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* WINDOW CARD */
+        .window {
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
         }
 
-        .card h3 {
+        .window-header {
+            background-color: #1976d2;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .window-body {
+            padding: 20px;
+        }
+
+        .window-body h3 {
             margin-top: 0;
-            color: #2e7d32;
+            color: #0d47a1;
+        }
+
+        .window-body p {
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         footer {
-            background-color: #1b5e20;
+            background-color: #0d47a1;
             color: white;
             text-align: center;
             padding: 20px;
             margin-top: 40px;
         }
 
-        @media(max-width:768px){
-            header h1 {
-                font-size: 28px;
-            }
-        }
     </style>
 
 </head>
@@ -78,80 +100,119 @@
     <h1>MARKET</h1>
 </header>
 
-<section class="hero">
-    <h2>Produits vendus au Maroc</h2>
-    <p>Chocolats • Biscuits • Chips</p>
-</section>
+<div class="subtitle">
+    Toutes les marques de Chocolat, Biscuit et Chips vendues au Maroc
+</div>
 
 <div class="container">
 
-    <!-- SECTION CHOCOLATS -->
-    <h2>🍫 Chocolats</h2>
+    <!-- CHOCOLAT -->
+    <h2>🍫 Marques de Chocolat</h2>
 
-    <div class="card">
-        <h3>Lindt Excellence</h3>
-        <p><strong>Société :</strong> Lindt & Sprüngli</p>
-        <p>Entreprise suisse fondée en 1845, spécialisée dans le chocolat premium. Ses produits sont vendus dans les grandes surfaces marocaines.</p>
+    <div class="grid">
+
+        <div class="window">
+            <div class="window-header">Lindt</div>
+            <div class="window-body">
+                <h3>Lindt & Sprüngli</h3>
+                <p>Société suisse fondée en 1845, spécialisée dans le chocolat premium. Présente dans les grandes surfaces au Maroc.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="window-header">Ferrero</div>
+            <div class="window-body">
+                <h3>Ferrero Group</h3>
+                <p>Entreprise italienne connue pour Ferrero Rocher, Kinder et Nutella. Très populaire au Maroc.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="window-header">Nestlé</div>
+            <div class="window-body">
+                <h3>Nestlé</h3>
+                <p>Multinationale suisse produisant KitKat, Crunch et autres chocolats vendus au Maroc.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="window-header">Aiguebelle</div>
+            <div class="window-body">
+                <h3>Aiguebelle Maroc</h3>
+                <p>Entreprise marocaine spécialisée dans le chocolat et les confiseries locales.</p>
+            </div>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>Ferrero Rocher / Kinder</h3>
-        <p><strong>Société :</strong> Ferrero</p>
-        <p>Entreprise italienne créée en 1946. Très populaire au Maroc, notamment pendant les fêtes. Elle produit Ferrero Rocher, Kinder et Nutella.</p>
+
+    <!-- BISCUIT -->
+    <h2>🍪 Marques de Biscuit</h2>
+
+    <div class="grid">
+
+        <div class="window">
+            <div class="window-header">Oreo</div>
+            <div class="window-body">
+                <h3>Mondelez International</h3>
+                <p>Entreprise américaine produisant les biscuits Oreo, très vendus au Maroc.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="window-header">LU</div>
+            <div class="window-body">
+                <h3>LU France</h3>
+                <p>Fabricant des biscuits Prince, Petit Beurre et autres produits populaires.</p>
+            </div>
+        </div>
+
+        <div class="window">
+            <div class="window-header">Excelo</div>
+            <div class="window-body">
+                <h3>Excelo Maroc</h3>
+                <p>Entreprise marocaine produisant des biscuits pour le marché local.</p>
+            </div>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>Aiguebelle</h3>
-        <p><strong>Société :</strong> Aiguebelle Maroc</p>
-        <p>Entreprise marocaine spécialisée dans le chocolat et les confiseries locales. Marque historique au Maroc.</p>
-    </div>
 
-    <!-- SECTION BISCUITS -->
-    <h2>🍪 Biscuits</h2>
+    <!-- CHIPS -->
+    <h2>🥔 Marques de Chips</h2>
 
-    <div class="card">
-        <h3>Oreo</h3>
-        <p><strong>Société :</strong> Mondelez International</p>
-        <p>Multinationale américaine spécialisée dans les snacks. Oreo est l’un des biscuits les plus vendus au Maroc.</p>
-    </div>
+    <div class="grid">
 
-    <div class="card">
-        <h3>Prince</h3>
-        <p><strong>Société :</strong> LU (groupe Mondelez)</p>
-        <p>Marque française connue pour ses biscuits fourrés au chocolat. Très répandue dans les supermarchés marocains.</p>
-    </div>
+        <div class="window">
+            <div class="window-header">Lay's</div>
+            <div class="window-body">
+                <h3>PepsiCo</h3>
+                <p>Multinationale américaine produisant Lay's, l'une des chips les plus vendues au Maroc.</p>
+            </div>
+        </div>
 
-    <div class="card">
-        <h3>Excelo</h3>
-        <p><strong>Société :</strong> Excelo Maroc</p>
-        <p>Entreprise marocaine produisant des biscuits adaptés au marché local. Distribuée dans tout le royaume.</p>
-    </div>
+        <div class="window">
+            <div class="window-header">Pringles</div>
+            <div class="window-body">
+                <h3>Kellogg's</h3>
+                <p>Entreprise américaine célèbre pour ses chips en tube.</p>
+            </div>
+        </div>
 
-    <!-- SECTION CHIPS -->
-    <h2>🥔 Chips</h2>
+        <div class="window">
+            <div class="window-header">Chips Maroc</div>
+            <div class="window-body">
+                <h3>Producteurs marocains</h3>
+                <p>Plusieurs entreprises marocaines produisent des chips distribuées localement.</p>
+            </div>
+        </div>
 
-    <div class="card">
-        <h3>Lay's</h3>
-        <p><strong>Société :</strong> PepsiCo</p>
-        <p>Multinationale américaine spécialisée dans les snacks et boissons. Lay's est l’une des marques de chips les plus vendues au Maroc.</p>
-    </div>
-
-    <div class="card">
-        <h3>Pringles</h3>
-        <p><strong>Société :</strong> Kellogg's</p>
-        <p>Entreprise américaine produisant les célèbres chips en tube. Très populaires au Maroc.</p>
-    </div>
-
-    <div class="card">
-        <h3>Chips From Morocco (exemple local)</h3>
-        <p><strong>Société :</strong> Entreprises agroalimentaires marocaines</p>
-        <p>Plusieurs entreprises locales produisent des chips adaptées aux goûts marocains, distribuées dans les commerces de proximité.</p>
     </div>
 
 </div>
 
 <footer>
-    <p>© 2026 MARKET - Tous droits réservés</p>
+    © 2026 MARKET - Application Vitrine
 </footer>
 
 </body>
