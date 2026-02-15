@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Malls Maroc</title>
 
-<!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.5/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
@@ -56,11 +55,6 @@ header{
   border:1px solid #ccc;
 }
 
-.controls label{
-  display:block;
-  margin-bottom:5px;
-}
-
 .mall-card{
   background:white;
   border-radius:10px;
@@ -73,7 +67,6 @@ header{
 
 .mall-card:hover{
   transform:translateY(-4px);
-  box-shadow:0 6px 20px rgba(0,0,0,0.25);
 }
 
 .main{
@@ -91,16 +84,14 @@ header{
   left:50%;
   transform:translateX(-50%);
   background:white;
-  width:400px;
+  width:420px;
+  max-height:80vh;
+  overflow-y:auto;
   padding:20px;
   border-radius:12px;
   box-shadow:0 8px 30px rgba(0,0,0,0.3);
   display:none;
   z-index:1000;
-}
-
-.detail-panel h2{
-  margin-top:0;
 }
 
 .detail-panel button{
@@ -122,12 +113,10 @@ header{
 <div class="container">
 
 <div class="sidebar">
-<div class="controls">
 <input type="text" id="search" placeholder="Rechercher un mall...">
 <select id="cityFilter"><option value="">Toutes les villes</option></select>
 <label><input type="checkbox" id="showMalls" checked> Malls</label>
 <label><input type="checkbox" id="showMarjane" checked> Marjane</label>
-</div>
 <div id="mall-list"></div>
 </div>
 
@@ -151,12 +140,69 @@ header{
 
 <script>
 
-// DATA
 const malls = [
-{ id:1,name:"Morocco Mall",city:"Casablanca",location:{address:"Boulevard de Biarritz",lat:33.5731,lng:-7.7076},stores:["Zara","H&M","Nike"],fastfood:["McDonald's","KFC"],type:"mall"},
-{ id:2,name:"Mega Mall",city:"Rabat",location:{address:"Avenue Mohamed VI",lat:34.0209,lng:-6.8416},stores:["LC Waikiki","Carrefour"],fastfood:["Burger King"],type:"mall"},
-{ id:3,name:"Menara Mall",city:"Marrakech",location:{address:"Avenue Mohammed VI",lat:31.6145,lng:-8.0216},stores:["Puma","Zara"],fastfood:["KFC","Pizza Hut"],type:"mall"},
-{ id:4,name:"Marjane Casablanca",city:"Casablanca",location:{address:"Ain Sebaa",lat:33.6167,lng:-7.575},stores:["Marjane","Electro"],fastfood:["KFC"],type:"marjane"}
+
+{
+id:1,
+name:"Morocco Mall",
+city:"Casablanca",
+location:{address:"Boulevard de Biarritz",lat:33.5731,lng:-7.7076},
+stores:[
+"Zara","H&M","Nike","Adidas","Pull&Bear","Bershka","Stradivarius",
+"Massimo Dutti","Oysho","Calzedonia","Intimissimi","Foot Locker",
+"Sephora","Yves Rocher","MAC Cosmetics","Lacoste","Guess",
+"Tommy Hilfiger","Levi’s","Diesel","Swatch","Pandora",
+"Virgin Megastore","Miniso","Claire’s","Celio","Kiabi",
+"Mango","Aldo","Skechers","Samsung Store","Apple Reseller",
+"Carrefour Market"
+],
+fastfood:["McDonald's","KFC","Burger King","Pizza Hut","Subway"],
+type:"mall"
+},
+
+{
+id:2,
+name:"Mega Mall",
+city:"Rabat",
+location:{address:"Avenue Mohamed VI",lat:34.0209,lng:-6.8416},
+stores:[
+"Carrefour","LC Waikiki","Defacto","Adidas","Nike",
+"Zara","Mango","Celio","Pimkie","Yves Rocher",
+"Electroplanet","Miniso","Swatch","Bershka",
+"Pull&Bear","Stradivarius"
+],
+fastfood:["Burger King","KFC"],
+type:"mall"
+},
+
+{
+id:3,
+name:"Menara Mall",
+city:"Marrakech",
+location:{address:"Avenue Mohammed VI",lat:31.6145,lng:-8.0216},
+stores:[
+"Puma","Zara","Adidas","Mango","LC Waikiki",
+"Carrefour Market","Celio","Bershka","Stradivarius",
+"Miniso","Defacto","Electroplanet"
+],
+fastfood:["KFC","Pizza Hut"],
+type:"mall"
+},
+
+{
+id:4,
+name:"Marjane Casablanca",
+city:"Casablanca",
+location:{address:"Ain Sebaa",lat:33.6167,lng:-7.575},
+stores:[
+"Marjane Hypermarket","Electroplanet","Kiabi","Decathlon",
+"Inwi","Orange","Samsung Store","Yves Rocher",
+"Pharmacie","Optique","Bijouterie","Presse & Librairie"
+],
+fastfood:["KFC"],
+type:"marjane"
+}
+
 ];
 
 const mallListEl=document.getElementById("mall-list");
@@ -164,9 +210,6 @@ const searchInput=document.getElementById("search");
 const cityFilter=document.getElementById("cityFilter");
 const showMalls=document.getElementById("showMalls");
 const showMarjane=document.getElementById("showMarjane");
-
-const detailPanel=document.getElementById("detail-panel");
-const closeDetail=document.getElementById("close-detail");
 
 let map,markerCluster;
 
@@ -203,50 +246,12 @@ function renderMap(filteredMalls){
 if(map) map.remove();
 map=L.map('map').setView([33.5731,-7.7076],5);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 markerCluster=L.markerClusterGroup();
 
 filteredMalls.forEach(m=>{
-const container=document.createElement("div");
-container.style.width="120px";
-container.style.height="80px";
-container.style.transition="0.3s";
-
-const canvas=document.createElement("canvas");
-canvas.width=120;
-canvas.height=80;
-container.appendChild(canvas);
-
-const chart=new Chart(canvas.getContext("2d"),{
-type:'doughnut',
-data:{
-labels:['Magasins','FastFood'],
-datasets:[{data:[m.stores.length,m.fastfood.length],
-backgroundColor:['#0a9396','#ee6c4d'],
-borderWidth:0}]
-},
-options:{
-responsive:false,
-cutout:'60%',
-plugins:{legend:{display:false}}
-}
-});
-
-container.addEventListener("mouseenter",()=>{
-container.style.transform="scale(1.2)";
-container.style.filter="drop-shadow(0 8px 15px rgba(0,0,0,0.4))";
-});
-
-container.addEventListener("mouseleave",()=>{
-container.style.transform="scale(1)";
-container.style.filter="none";
-});
-
-const icon=L.divIcon({html:container.outerHTML,className:"",iconSize:[120,80],iconAnchor:[60,40]});
-
-const marker=L.marker([m.location.lat,m.location.lng],{icon:icon})
-.bindPopup(`<b>${m.name}</b><br>${m.location.address}`);
-
+const marker=L.marker([m.location.lat,m.location.lng])
+.bindPopup(`<b>${m.name}</b><br>${m.location.address}<br>${m.stores.length} magasins`);
 markerCluster.addLayer(marker);
 });
 
@@ -254,7 +259,7 @@ map.addLayer(markerCluster);
 }
 
 function showDetail(m){
-detailPanel.style.display="block";
+document.getElementById("detail-panel").style.display="block";
 document.getElementById("mall-title").textContent=m.name;
 document.getElementById("mall-city").textContent="Ville: "+m.city;
 document.getElementById("mall-address").textContent="Adresse: "+m.location.address;
@@ -271,11 +276,13 @@ m.fastfood.forEach(f=>fastfoods.innerHTML+=`<li>${f}</li>`);
 map.setView([m.location.lat,m.location.lng],15);
 }
 
+document.getElementById("close-detail")
+.addEventListener("click",()=>document.getElementById("detail-panel").style.display="none");
+
 searchInput.addEventListener("input",renderMalls);
 cityFilter.addEventListener("change",renderMalls);
 showMalls.addEventListener("change",renderMalls);
 showMarjane.addEventListener("change",renderMalls);
-closeDetail.addEventListener("click",()=>detailPanel.style.display="none");
 
 renderMalls();
 
