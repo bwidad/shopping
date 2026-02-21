@@ -8,48 +8,48 @@
 <style>
 
 body{
-font-family:Arial;
-margin:0;
-background:#f1f3f6;
+    font-family:Arial;
+    margin:0;
+    background:#f1f3f6;
 }
 
 /* HEADER */
 
 header{
-background:linear-gradient(90deg,#ff6f00,#ff9800);
-color:white;
-padding:25px;
-text-align:center;
+    background:linear-gradient(90deg,#ff6f00,#ff9800);
+    color:white;
+    padding:25px;
+    text-align:center;
 }
 
 h1{
-margin:0;
-font-size:42px;
-letter-spacing:5px;
+    margin:0;
+    font-size:42px;
+    letter-spacing:5px;
 }
 
 /* CONTAINER */
 
 .container{
-max-width:1100px;
-margin:auto;
-padding:20px;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
 }
 
 /* ACCORDION */
 
 .accordion{
-margin-bottom:15px;
-border-radius:8px;
-overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    margin-bottom:15px;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
 }
 
 .accordion-header{
-padding:15px;
-color:white;
-font-size:20px;
-cursor:pointer;
+    padding:15px;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
 }
 
 /* COLORS */
@@ -62,46 +62,61 @@ cursor:pointer;
 /* CONTENT */
 
 .content{
-display:none;
-background:white;
-padding:15px;
+    display:none;
+    background:white;
+    padding:15px;
 }
 
 /* PRODUCT */
 
 .product{
-display:flex;
-align-items:center;
-background:#f9f9f9;
-margin-bottom:10px;
-padding:10px;
-border-radius:6px;
+    display:flex;
+    align-items:center;
+    background:#f9f9f9;
+    margin-bottom:10px;
+    padding:10px;
+    border-radius:6px;
 }
 
 .product img{
-width:60px;
-height:60px;
-object-fit:contain;
-margin-right:15px;
+    width:60px;
+    height:60px;
+    object-fit:contain;
+    margin-right:15px;
 }
 
 .product h3{
-margin:0;
+    margin:0;
 }
 
 .product p{
-margin:3px 0;
-font-size:14px;
-color:#555;
+    margin:3px 0;
+    font-size:14px;
+    color:#555;
 }
 
 /* FOOTER */
 
 footer{
-background:#222;
-color:white;
-text-align:center;
-padding:20px;
+    background:#222;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+/* LOADER */
+
+.loader{
+    text-align:center;
+    padding:20px;
+    font-size:18px;
+    color:#666;
+}
+
+.error{
+    text-align:center;
+    padding:20px;
+    color:red;
 }
 
 </style>
@@ -144,6 +159,10 @@ padding:20px;
 <div id="boissonList" class="content"></div>
 </div>
 
+<div id="status" class="loader">
+Chargement des produits...
+</div>
+
 </div>
 
 <footer>
@@ -152,178 +171,96 @@ padding:20px;
 
 <script>
 
-/* DATABASE — Ajoutez jusqu'à 200 marques ici */
+/* AZURE FUNCTION URL */
 
-const products = [
-
-/* CHOCOLAT */
-
-{
-name:"Lindt",
-company:"Entreprise suisse fondée en 1845 spécialisée dans le chocolat premium.",
-category:"chocolat",
-image:"https://share.google/ihutB4fqtZMq2C5Wj"
-},
-
-{
-name:"Ferrero",
-company:"Entreprise italienne produisant Kinder et Ferrero Rocher.",
-category:"chocolat",
-image:"https://share.google/Odu2P8wHlzma7gJb9"
-},
-
-{
-name:"Milka",
-company:"Marque mondiale appartenant à Mondelez.",
-category:"chocolat",
-image:"https://share.google/7t3yNKivLYqqJ8iZC"
-  "
-},
-
-{
-name:"KitKat",
-company:"Produit par Nestlé.",
-category:"chocolat",
-image:"https://share.google/wEKbPSQrZVX3k5PFC"
-},
-
-{
-name:"Toblerone",
-company:"Chocolat suisse célèbre.",
-category:"chocolat",
-image:"https://share.google/IijT94FDwP5PUE7ez"
-},
-
-/* BISCUIT */
-
-{
-name:"Oreo",
-company:"Biscuit produit par Mondelez.",
-category:"biscuit",
-image:"https://logo.clearbit.com/oreo.com"
-},
-
-{
-name:"LU",
-company:"Entreprise française de biscuit.",
-category:"biscuit",
-image:"https://logo.clearbit.com/lu.fr"
-},
-
-{
-name:"Bimo",
-company:"Entreprise marocaine de biscuit.",
-category:"biscuit",
-image:"https://logo.clearbit.com/bimo.ma"
-},
-
-{
-name:"Lotus",
-company:"Entreprise belge de biscuit.",
-category:"biscuit",
-image:"https://logo.clearbit.com/lotusbakeries.com"
-},
-
-/* CHIPS */
-
-{
-name:"Lay's",
-company:"Entreprise américaine PepsiCo.",
-category:"chips",
-image:"https://logo.clearbit.com/lays.com"
-},
-
-{
-name:"Pringles",
-company:"Entreprise Kellogg's.",
-category:"chips",
-image:"https://logo.clearbit.com/pringles.com"
-},
-
-{
-name:"Doritos",
-company:"Produit PepsiCo.",
-category:"chips",
-image:"https://logo.clearbit.com/doritos.com"
-},
-
-{
-name:"Cheetos",
-company:"Produit PepsiCo.",
-category:"chips",
-image:"https://logo.clearbit.com/cheetos.com"
-},
-
-/* BOISSON */
-
-{
-name:"Coca-Cola",
-company:"Entreprise américaine de boisson.",
-category:"boisson",
-image:"https://logo.clearbit.com/coca-cola.com"
-},
-
-{
-name:"Pepsi",
-company:"Entreprise PepsiCo.",
-category:"boisson",
-image:"https://logo.clearbit.com/pepsi.com"
-},
-
-{
-name:"Hawai",
-company:"Boisson populaire au Maroc.",
-category:"boisson",
-image:"https://logo.clearbit.com/hawai.ma"
-},
-
-{
-name:"Poms",
-company:"Boisson gazeuse marocaine.",
-category:"boisson",
-image:"https://logo.clearbit.com/poms.ma"
-}
-
-];
+const API_URL = "https://widadfunction-cjf0fzc4hqc4bjg7.canadacentral-01.azurewebsites.net/api/missionV1?code=5YuBIGLxlL0EoZqQw49t1fX5T7MxAueeK0Ohifz5dueYAzFuvETAng==";
 
 
-/* DISPLAY */
+/* LOAD PRODUCTS FROM AZURE */
 
-function display(){
+async function loadProducts(){
 
-products.forEach(product=>{
+    try{
 
-const html = `
-<div class="product">
-<img src="${product.image}">
-<div>
-<h3>${product.name}</h3>
-<p>${product.company}</p>
-</div>
-</div>
-`;
+        const response = await fetch(API_URL);
 
-document.getElementById(product.category+"List").innerHTML += html;
+        if(!response.ok)
+            throw new Error("Erreur HTTP " + response.status);
 
-});
+        const products = await response.json();
+
+        displayProducts(products);
+
+        document.getElementById("status").innerHTML =
+            "Produits chargés : " + products.length;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("status").innerHTML =
+            "Erreur de chargement depuis Azure Function";
+
+        document.getElementById("status").className = "error";
+
+    }
 
 }
 
-display();
 
-/* TOGGLE */
+/* DISPLAY PRODUCTS */
+
+function displayProducts(products){
+
+    // reset
+    document.getElementById("chocolatList").innerHTML="";
+    document.getElementById("biscuitList").innerHTML="";
+    document.getElementById("chipsList").innerHTML="";
+    document.getElementById("boissonList").innerHTML="";
+
+    products.forEach(product=>{
+
+        const html = `
+        <div class="product">
+            <img src="${product.image}" onerror="this.src='https://via.placeholder.com/60'">
+            <div>
+                <h3>${product.name}</h3>
+                <p>${product.company}</p>
+            </div>
+        </div>
+        `;
+
+        const container =
+            document.getElementById(product.category + "List");
+
+        if(container)
+            container.innerHTML += html;
+
+    });
+
+}
+
+
+/* ACCORDION TOGGLE */
 
 function toggle(id){
 
-const el = document.getElementById(id);
+    const el = document.getElementById(id);
 
-el.style.display =
-el.style.display === "block" ? "none" : "block";
+    if(el.style.display === "block")
+        el.style.display = "none";
+    else
+        el.style.display = "block";
 
 }
+
+
+/* INIT */
+
+loadProducts();
 
 </script>
 
 </body>
 </html>
-
